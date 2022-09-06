@@ -8,3 +8,4 @@ runs:
         node-version: 16
         cache: 'yarn'
     - run: yarn install --ignore-optional --frozen-lockfile --prefer-offline
+      shell: bash
