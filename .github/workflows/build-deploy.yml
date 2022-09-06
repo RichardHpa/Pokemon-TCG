@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    paths:
+      # only release when files in these paths are changed
+      - 'package.json'
 
 jobs:
   build:
