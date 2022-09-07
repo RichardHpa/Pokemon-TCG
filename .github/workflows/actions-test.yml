@@ -14,4 +14,4 @@ jobs:
   testing:
     runs-on: ubuntu-latest
       steps:
-      - run: echo "Testing Github Actions on branch $GITHUB_REF"
+        - run: echo "Testing Github Actions on branch $GITHUB_REF"
