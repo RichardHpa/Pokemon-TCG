@@ -1,7 +1,11 @@
 # Workflow for ESLint
 name: 🔧 ESLint
 
-on: push
+on:
+  push:
+    branches:
+      - '**' # matches every branch
+      - '!actions-test' # excludes actions-test branch
 
 concurrency:
   group: ${{ github.ref }}
