@@ -1,11 +1,10 @@
 # Workflow for Testing Actions
-
-# Workflow for ESLint
 name: 🧪 Testing Actions
 
-on: push
-  branches:  
-    - 'actions-test'   # excludes actions-test branch
+on:
+  push:
+    branches:
+      - 'actions-test'   # only run on actions-test branch
 
 concurrency:
   group: ${{ github.ref }}

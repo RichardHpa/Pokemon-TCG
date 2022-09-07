@@ -1,10 +1,11 @@
 # Workflow for Jest Suite
 name: 🃏 Jest
 
-on: push
-  branches:  
-    - '**'        # matches every branch
-    - '!actions-test'   # excludes actions-test branch
+on:
+  push:
+    branches:
+      - '**' # matches every branch
+      - '!actions-test' # excludes actions-test branch
 
 concurrency:
   group: ${{ github.ref }}
