@@ -2,6 +2,9 @@
 name: 🃏 Jest
 
 on: push
+  branches:  
+    - '**'        # matches every branch
+    - '!actions-test'   # excludes actions-test branch
 
 concurrency:
   group: ${{ github.ref }}
@@ -32,8 +35,8 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: github-actions
           SLACK_TITLE: 'Jest Suite'
-          SLACK_USERNAME: 'Demo-App-Jest'
+          SLACK_USERNAME: ${{ github.event.repository.name }}-Jest
           SLACK_COLOR: ${{ job.status }}
           SLACK_MESSAGE: 'Jest Suite has completed'
           SLACK_FOOTER: ''
-          SLACK_ICON_EMOJI: ':jest:'
+          SLACK_ICON_EMOJI: ':jest'
