@@ -4,7 +4,7 @@ name: 🃏 Jest
 on: push
 
 concurrency: 
-  group: ${{ github.head_ref }}
+  group: ${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
       - name: Run jest
         run: yarn test:ci
 
-  Slack Notification:
+  slack:
     needs: jest
     - uses: rtCamp/action-slack-notify@v2
         env:
