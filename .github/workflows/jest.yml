@@ -3,7 +3,7 @@ name: 🃏 Jest
 
 on: push
 
-concurrency: 
+concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 
@@ -23,7 +23,10 @@ jobs:
 
   slack:
     needs: jest
-    - uses: rtCamp/action-slack-notify@v2
+    steps:
+      - uses: actions/checkout@v3
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: github-actions
