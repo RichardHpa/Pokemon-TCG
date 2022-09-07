@@ -4,7 +4,7 @@ name: 🧪 Testing Actions
 on:
   push:
     branches:
-      - 'actions-test'   # only run on actions-test branch
+      - 'actions-test' # only run on actions-test branch
 
 concurrency:
   group: ${{ github.ref }}
@@ -13,5 +13,5 @@ concurrency:
 jobs:
   testing:
     runs-on: ubuntu-latest
-      steps:
-        - run: echo "Testing Github Actions on branch $GITHUB_REF"
+    steps:
+      - run: echo "Testing Github Actions on branch $GITHUB_REF"
