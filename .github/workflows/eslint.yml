@@ -1,0 +1,18 @@
+# Workflow for ESLint
+name: 🔧 ESLint
+
+on: push
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
+      - name: Run ESLint
+        run: yarn lint:ci
