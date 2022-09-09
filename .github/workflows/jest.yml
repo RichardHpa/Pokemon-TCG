@@ -31,6 +31,7 @@ jobs:
         id: jestJob
         run: |
           echo "::set-output name=jestStatus::success"
+
   slack:
     needs: jest
     runs-on: ubuntu-latest
@@ -43,7 +44,7 @@ jobs:
         uses: ./.github/actions/slack
         with:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
-          workflow_name: 'Testing Actions'
+          workflow_name: 'Jest'
           slack_icon_emoji: ':jest:'
 
       - name: Slack Fail Notification
@@ -51,5 +52,5 @@ jobs:
         uses: ./.github/actions/slack
         with:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
-          workflow_name: 'Testing Actions'
+          workflow_name: 'Jest'
           success: false

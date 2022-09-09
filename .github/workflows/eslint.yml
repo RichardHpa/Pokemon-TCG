@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    outputs:
+      lintStatus: ${{ steps.lintJob.outputs.lintStatus }}
     steps:
       - uses: actions/checkout@v2
 
@@ -24,3 +26,31 @@ jobs:
 
       - name: Run ESLint
         run: yarn lint:ci
+
+      - name: Set lintStatus
+        id: lintJob
+        run: |
+          echo "::set-output name=lintStatus::success"
+
+  slack:
+    needs: eslint
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Slack Success Notification
+        if: ${{ needs.eslint.outputs.lintStatus == 'success' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'ESlint'
+          slack_icon_emoji: ':eslint:'
+
+      - name: Slack Fail Notification
+        if: ${{ needs.jest.outputs.lintStatus == '' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'ESlint'
+          success: false
