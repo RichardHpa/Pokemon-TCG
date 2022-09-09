@@ -7,10 +7,6 @@ on:
       - '**' # matches every branch
       - '!actions-test' # excludes actions-test branch
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   eslint:
     runs-on: ubuntu-latest
