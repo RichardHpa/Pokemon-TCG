@@ -48,7 +48,7 @@ jobs:
           slack_icon_emoji: ':eslint:'
 
       - name: Slack Fail Notification
-        if: ${{ needs.jest.outputs.lintStatus == '' }}
+        if: ${{ needs.eslint.outputs.lintStatus == '' }}
         uses: ./.github/actions/slack
         with:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
