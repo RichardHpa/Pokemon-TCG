@@ -12,10 +12,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  jest:
+   jest:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    outputs:
+      jestStatus: ${{ steps.jestJob.outputs.jestStatus }}
     steps:
       - uses: actions/checkout@v2
 
@@ -25,19 +27,29 @@ jobs:
       - name: Run jest
         run: yarn test:ci
 
+      - name: Set jestStatus
+        id: jestJob
+        run: |
+          echo "::set-output name=jestStatus::success"
   slack:
     needs: jest
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - uses: actions/checkout@v3
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: github-actions
-          SLACK_TITLE: 'Jest Suite'
-          SLACK_USERNAME: ${{ github.event.repository.name }}-Jest
-          SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: 'Jest Suite has completed'
-          SLACK_FOOTER: ''
-          SLACK_ICON_EMOJI: ':jest'
+
+      - name: Slack Success Notification
+        if: ${{ needs.jest.outputs.jestStatus == 'success' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'Testing Actions'
+          slack_icon_emoji: ':jest:'
+
+      - name: Slack Fail Notification
+        if: ${{ needs.jest.outputs.jestStatus == '' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'Testing Actions'
+          success: false
