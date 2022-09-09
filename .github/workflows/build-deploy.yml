@@ -1,4 +1,4 @@
-name: Build & deploy
+name: 🚀 Build & deploy
 
 on:
   push:
@@ -17,19 +17,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-
-      - name: Install NPM packages
-        run: npm ci
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
 
       - name: Build project
-        run: npm run build
+        run: yarn build
 
       - name: Run tests
-        run: npm run test
+        run: yarn test:ci
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
