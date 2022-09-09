@@ -1,0 +1,53 @@
+# Workflow for Jest Suite
+name: 🃏 Jest
+
+on:
+  push:
+    branches:
+      - '**' # matches every branch
+      - '!actions-test' # excludes actions-test branch
+      - '!main' # excludes main branch as it does its own check. Ideally should use this one but github actions don't support cross workflow checks yet
+
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    outputs:
+      jestStatus: ${{ steps.jestJob.outputs.jestStatus }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
+      - name: Run jest
+        run: yarn test:ci
+
+      - name: Set jestStatus
+        id: jestJob
+        run: |
+          echo "::set-output name=jestStatus::success"
+
+  slack:
+    needs: jest
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Slack Success Notification
+        if: ${{ needs.jest.outputs.jestStatus == 'success' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'Jest'
+          slack_icon_emoji: ':jest:'
+
+      - name: Slack Fail Notification
+        if: ${{ needs.jest.outputs.jestStatus == '' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'Jest'
+          success: false

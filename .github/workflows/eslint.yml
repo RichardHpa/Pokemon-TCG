@@ -1,0 +1,53 @@
+# Workflow for ESLint
+name: 🔧 ESLint
+
+on:
+  push:
+    branches:
+      - '**' # matches every branch
+      - '!actions-test' # excludes actions-test branch
+      - '!main' # excludes main branch as it does its own check. Ideally should use this one but github actions don't support cross workflow checks yet
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    outputs:
+      lintStatus: ${{ steps.lintJob.outputs.lintStatus }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
+      - name: Run ESLint
+        run: yarn lint:ci
+
+      - name: Set lintStatus
+        id: lintJob
+        run: |
+          echo "::set-output name=lintStatus::success"
+
+  slack:
+    needs: eslint
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Slack Success Notification
+        if: ${{ needs.eslint.outputs.lintStatus == 'success' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'ESlint'
+          slack_icon_emoji: ':eslint:'
+
+      - name: Slack Fail Notification
+        if: ${{ needs.eslint.outputs.lintStatus == '' }}
+        uses: ./.github/actions/slack
+        with:
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
+          workflow_name: 'ESlint'
+          success: false
