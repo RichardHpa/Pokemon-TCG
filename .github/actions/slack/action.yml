@@ -1,0 +1,57 @@
+name: Send Success Slack Notification
+description: Send a notification to Slack if the workflow was successful
+
+runs:
+  using: composite
+  steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      shell: bash
+
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+
+    - name: Send Success Message
+      if: ${{ inputs.success == 'true' }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_CHANNEL: github-actions
+        SLACK_TITLE: ${{ inputs.workflow_name }} Action
+        SLACK_USERNAME: ${{ github.repository }}-${{ inputs.workflow_name }} - ${{ steps.extract_branch.outputs.branch }}
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: ${{ inputs.workflow_name }} on ${{ github.repository }} was successful for branch ${{ steps.extract_branch.outputs.branch }}
+        SLACK_FOOTER: ''
+        SLACK_ICON_EMOJI: ${{ inputs.slack_icon_emoji }}
+        MSG_MINIMAL: true
+
+    - name: Send Fail Message
+      if: ${{ inputs.success == 'false' }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
+        SLACK_CHANNEL: github-actions
+        SLACK_TITLE: ${{ inputs.workflow_name }} Action
+        SLACK_USERNAME: ${{ github.repository }} ${{ inputs.workflow_name }} - ${{ steps.extract_branch.outputs.branch }}
+        SLACK_COLOR: '#d9534f'
+        SLACK_MESSAGE: ${{ inputs.workflow_name }} has failed for ${{ github.repository }} for branch ${{ steps.extract_branch.outputs.branch }}
+        SLACK_FOOTER: ''
+        SLACK_ICON_EMOJI: ':boom:'
+        MSG_MINIMAL: actions url
+
+inputs:
+  slack_webhook:
+    description: 'Slack webhook URL'
+    required: true
+  workflow_name:
+    description: 'Name of the workflow which is running'
+    required: true
+  success:
+    description: 'Did the workflow succeed?'
+    required: false
+    default: true
+  slack_icon_emoji:
+    description: 'Slack icon emoji'
+    required: false
+    default: ':react:'

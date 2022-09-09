@@ -1,0 +1,17 @@
+# Workflow for Testing Actions
+name: 🧪 Testing Actions
+
+on:
+  push:
+    branches:
+      - 'actions-test' # only run on actions-test branch
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing Github Actions on branch $GITHUB_REF"
