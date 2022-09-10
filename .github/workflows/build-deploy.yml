@@ -44,6 +44,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
       - name: "Get Package Version we're releasing"
         id: PACKAGE_VERSION
         uses: martinbeentjes/npm-get-version-action@v1.2.3
