@@ -21,6 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:ci": "CI=true react-scripts build && yarn pack --filename=package.tgz",
     "test": "react-scripts test",
     "test:ci": "CI=true yarn test",
     "eject": "react-scripts eject",
