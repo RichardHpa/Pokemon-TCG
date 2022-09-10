@@ -34,6 +34,9 @@ jobs:
           echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
           echo "GIT_TAG=v${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
 
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
       - name: Test Javascript Action with Hello world action step
         uses: ./.github/actions/compare-versions # Uses an action in the root directory
         id: hello
