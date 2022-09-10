@@ -13,10 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    outputs:
-      jestStatus: ${{ steps.jestJob.outputs.jestStatus }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: 'Setup Node, Caching, and Yarn install'
         uses: ./.github/actions/node-yarn
@@ -24,28 +22,21 @@ jobs:
       - name: Run jest
         run: yarn test:ci
 
-      - name: Set jestStatus
-        id: jestJob
-        run: |
-          echo "::set-output name=jestStatus::success"
-
-  slack:
-    needs: jest
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - uses: actions/checkout@v3
-
       - name: Slack Success Notification
-        if: ${{ needs.jest.outputs.jestStatus == 'success' }}
         uses: ./.github/actions/slack
         with:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
           workflow_name: 'Jest'
           slack_icon_emoji: ':jest:'
 
+  slack:
+    needs: jest
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Slack Fail Notification
-        if: ${{ needs.jest.outputs.jestStatus == '' }}
         uses: ./.github/actions/slack
         with:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}

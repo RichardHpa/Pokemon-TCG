@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   # only release when files in these paths are changed
-    #   - 'package.json'
+      # paths:
+      # only release when files in these paths are changed
+      - 'package.json'
 
 jobs:
   check:
@@ -20,25 +20,17 @@ jobs:
       - name: 'Setup Node, Caching, and Yarn install'
         uses: ./.github/actions/node-yarn
 
-      # - name: Build project
-      #   run: yarn build
-
       - name: Run Lint
         run: yarn lint:ci
 
       - name: Run Jest
         run: yarn test:ci
 
-      # - name: Upload production-ready build files
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: production-files
-      #     path: ./build
-
-  build:
-    name: Prepare for deployment
+  deploy:
+    name: Prepare and Deploy
     runs-on: ubuntu-latest
     needs: check
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -111,21 +103,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # deploy:
-  #   name: Deploy
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/main'
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./build
 
-  #   steps:
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v2
-  #       with:
-  #         name: production-files
-  #         path: ./build
-
-  #     - name: Deploy to gh-pages
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_dir: ./build
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
