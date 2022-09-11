@@ -28,7 +28,6 @@ jobs:
       - name: "Get Package Version we're releasing"
         id: PACKAGE_VERSION
         uses: martinbeentjes/npm-get-version-action@v1.2.3
-      # eg. PACKAGE_VERSION=1.2.3 and GIT_TAG=v1.2.3
       - name: Set PACKAGE_VERSION and GIT_TAG
         run: |
           echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
@@ -42,6 +41,5 @@ jobs:
         id: compare
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Use the output from the `hello` step
-      # - name: Get the output time
-      #   run: echo "The time was ${{ steps.compare.outputs.latestTag }}"
+        with:
+          currentVersion: ${{ steps.PACKAGE_VERSION.outputs.current-version }}

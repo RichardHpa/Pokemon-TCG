@@ -1,8 +1,12 @@
 name: 'Compare two semver versions'
 description: 'Compares two semver versions and outputs the result'
 
+inputs:
+  currentVersion:
+    description: 'Version of the current package.json file'
+    required: true
 outputs:
-  latestTag: # id of output
+  latestTag:
     description: 'The latest tag version'
 runs:
   using: 'node16'
