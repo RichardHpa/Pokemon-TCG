@@ -112,6 +112,7 @@ jobs:
 
             - Author: **@${{ github.actor }}**
             - Version: `${{ env.PACKAGE_VERSION }}`
+            - Release Type: `${{ needs.prepare.outputs.versionType }}`
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
