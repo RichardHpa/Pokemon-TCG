@@ -76,6 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: prepare
     if: needs.prepare.outputs.isNewerVersion == 'true'
+    steps:
       - name: 'Setup Node, Caching, and Yarn install'
         uses: ./.github/actions/node-yarn
 
@@ -84,5 +85,3 @@ jobs:
           echo isNewerVersion: ${{ needs.prepare.outputs.isNewerVersion }}
           echo versionType: ${{ needs.prepare.outputs.versionType }}
           echo tag: ${{ needs.prepare.outputs.tag }}
-
-      
