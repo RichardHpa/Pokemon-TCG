@@ -26,9 +26,13 @@ jobs:
       - name: Run Jest
         run: yarn test:ci
 
-  deploy:
-    name: Prepare and Deploy
+  prepare:
+    name: Prepare
     runs-on: ubuntu-latest
+    outputs:
+      isNewerVersion: ${{ steps.compare.outputs.isNewerVersion }}
+      versionType: ${{ steps.compare.outputs.versionType }}
+      tag: ${{ steps.compare.outputs.tag }}
     needs: check
     if: github.ref == 'refs/heads/main'
     steps:
@@ -39,14 +43,29 @@ jobs:
       - name: 'Setup Node, Caching, and Yarn install'
         uses: ./.github/actions/node-yarn
 
-      - name: "Get Package Version we're releasing"
+      - name: 'Get current Package Version'
         id: PACKAGE_VERSION
         uses: martinbeentjes/npm-get-version-action@v1.2.3
-      # eg. PACKAGE_VERSION=1.2.3 and GIT_TAG=v1.2.3
       - name: Set PACKAGE_VERSION and GIT_TAG
         run: |
           echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
           echo "GIT_TAG=v${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
+
+      - name: Compare the two versions
+        uses: ./.github/actions/compare-versions
+        id: compare
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          currentVersion: ${{ env.PACKAGE_VERSION }}
+
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    needs: prepare
+    if: needs.prepare.outputs.isNewerVersion == 'true'
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
 
       # Create a Github Tag so we can point the release to this.
       - uses: actions/github-script@v6
