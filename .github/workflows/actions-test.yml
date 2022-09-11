@@ -57,10 +57,14 @@ jobs:
       - name: 'Get current Package Version'
         id: PACKAGE_VERSION
         uses: martinbeentjes/npm-get-version-action@v1.2.3
+        run: |
+          echo "v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
+          echo "::set-output name=tag::v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
+
       - name: Set PACKAGE_VERSION and GIT_TAG
         run: |
           echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
-          echo "::set-output name=tag::v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
+          echo v${{ steps.PACKAGE_VERSION.outputs.current-version }}
 
       - name: Compare the two versions
         uses: ./.github/actions/compare-versions
