@@ -19,7 +19,7 @@ async function run() {
       repo: 'Demo-App',
       per_page: 1,
     })
-    console.log`The current package.json version is ${core.getInput('currentVersion')}`
+    console.log(`The current package.json version is ${core.getInput('currentVersion')}`)
     console.log(`The latest release: ${releases[0].tag_name}`)
   } catch (error) {
     core.setFailed(error.message)
