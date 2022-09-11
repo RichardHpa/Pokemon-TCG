@@ -46,7 +46,6 @@ jobs:
       versionType: ${{ steps.compare.outputs.versionType }}
       tag: ${{ steps.PACKAGE_VERSION.outputs.tag }}
     needs: check
-    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
         with:
