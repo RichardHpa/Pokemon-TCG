@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
+const semver = require('semver')
 
 async function run() {
   try {
@@ -14,19 +15,27 @@ async function run() {
     const myToken = process.env.GITHUB_TOKEN
     const octokit = github.getOctokit(myToken)
 
-    const currentVersion = core.getInput('currentVersion')
+    const currentVersion = semver.parse(core.getInput('currentVersion'))
+    if (!currentVersion?.version) {
+      throw new Error(`Could not parse a version out of the package.json.`)
+    }
 
     const { data: releases } = await octokit.rest.repos.listReleases({
       owner: 'RichardHpa',
       repo: 'Demo-App',
       per_page: 1,
     })
-    const latestVersionRaw = releases[0].tag_name
-    const latestVersion = latestVersionRaw.replace('v', '')
-    console.log(`The current package.json version is ${currentVersion}`)
-    console.log(typeof currentVersion)
-    console.log(`The latest release: ${latestVersion}`)
-    console.log(typeof latestVersion)
+
+    const latestVersion = semver.parse(releases[0].tag_name)
+    if (!latestVersion?.version) {
+      throw new Error(`Could not parse a version from octokit api.`)
+    }
+
+    const isNewerVersion = semver.gt(currentVersion.version, latestVersion.version)
+    setOutput('isNewerVersion', isNewerVersion)
+
+    const versionType = semver.diff(currentVersion.version, latestVersion.version)
+    setOutput('versionType', versionType)
   } catch (error) {
     core.setFailed(error.message)
   }

@@ -6,8 +6,10 @@ inputs:
     description: 'Version of the current package.json file'
     required: true
 outputs:
-  latestTag:
-    description: 'The latest tag version'
+  isNewerVersion:
+    description: 'Is the latest version newer than the current version'
+  versionType:
+    description: 'The type of version change (major, minor, patch)'
 runs:
   using: 'node16'
   main: 'index.js'

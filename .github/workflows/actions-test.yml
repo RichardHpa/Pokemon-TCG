@@ -43,3 +43,20 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           currentVersion: ${{ env.PACKAGE_VERSION }}
+
+      - name: Debug
+        run: |
+          echo isNewerVersion: ${{ steps.compare.outputs.isNewerVersion }}
+          echo versionType: ${{ steps.compare.outputs.versionType }}
+
+      - name: 'Create Release'
+        if: steps.compare.outputs.isNewerVersion == 'true'
+        uses: actions/create-release@v1
+        run: |
+          echo "Creating new ${{ steps.compare.outputs.versionType }} release"
+
+      - name: 'Skip Release'
+        if: steps.compare.outputs.isNewerVersion == 'false'
+        uses: actions/create-release@v1
+        run: |
+          echo "Don't create a release, the current version is not newer than the previous version"
