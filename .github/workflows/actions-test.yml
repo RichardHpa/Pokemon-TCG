@@ -44,7 +44,7 @@ jobs:
     outputs:
       isNewerVersion: ${{ steps.compare.outputs.isNewerVersion }}
       versionType: ${{ steps.compare.outputs.versionType }}
-      tag: ${{ steps.PACKAGE_VERSION.outputs.tag }}
+      tag: ${{ steps.setTags.outputs.tag }}
     needs: check
     steps:
       - uses: actions/checkout@v3
@@ -58,6 +58,7 @@ jobs:
         id: PACKAGE_VERSION
         uses: martinbeentjes/npm-get-version-action@v1.2.3
       - name: Set PACKAGE_VERSION and GIT_TAG
+        id: setTags
         run: |
           echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
           echo "tag is v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
