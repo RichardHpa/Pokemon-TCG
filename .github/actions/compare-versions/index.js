@@ -24,10 +24,10 @@ async function run() {
     }
 
     const isNewerVersion = semver.gt(currentVersion.version, latestVersion.version)
-    setOutput('isNewerVersion', isNewerVersion)
+    core.setOutput('isNewerVersion', isNewerVersion)
 
     const versionType = semver.diff(currentVersion.version, latestVersion.version)
-    setOutput('versionType', versionType)
+    core.setOutput('versionType', versionType)
   } catch (error) {
     core.setFailed(error.message)
   }
