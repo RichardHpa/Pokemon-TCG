@@ -33,7 +33,7 @@ jobs:
   slack:
     needs: eslint
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }} && ${{ failure() }}
+    if: failure() && github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v3
 
