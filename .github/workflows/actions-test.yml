@@ -64,7 +64,6 @@ jobs:
       - name: Set PACKAGE_VERSION and GIT_TAG
         run: |
           echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
-          echo v${{ steps.PACKAGE_VERSION.outputs.current-version }}
 
       - name: Compare the two versions
         uses: ./.github/actions/compare-versions
