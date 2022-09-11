@@ -23,6 +23,7 @@ jobs:
         run: yarn test:ci
 
       - name: Slack Success Notification
+        if: ${{ github.actor != 'dependabot[bot]' }}
         uses: ./.github/actions/slack
         with:
           slack_webhook: ${{ secrets.SLACK_WEBHOOK }}
@@ -32,6 +33,7 @@ jobs:
   slack:
     needs: jest
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     if: ${{ failure() }}
     steps:
       - uses: actions/checkout@v3
