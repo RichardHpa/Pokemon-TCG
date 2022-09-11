@@ -76,6 +76,8 @@ jobs:
     needs: prepare
     if: needs.prepare.outputs.isNewerVersion == 'true'
     steps:
+      - uses: actions/checkout@v3
+
       - name: 'Setup Node, Caching, and Yarn install'
         uses: ./.github/actions/node-yarn
 
