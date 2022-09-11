@@ -17,10 +17,10 @@ async function run() {
     const { data: releases } = await octokit.rest.repos.listReleases({
       owner: 'RichardHpa',
       repo: 'Demo-App',
-      per_page: 2,
+      per_page: 1,
     })
 
-    console.log(releases)
+    console.log(releases[0].tag_name)
   } catch (error) {
     core.setFailed(error.message)
   }
