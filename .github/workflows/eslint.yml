@@ -7,9 +7,6 @@ on:
       - '**' # matches every branch
       - '!actions-test' # excludes actions-test branch
       - '!main' # excludes main branch as it does its own check. Ideally should use this one but github actions don't support cross workflow checks yet
-  pull_request:
-    branches:
-      - '**'
 
 jobs:
   eslint:
