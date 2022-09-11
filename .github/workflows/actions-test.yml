@@ -42,4 +42,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          currentVersion: ${{ steps.PACKAGE_VERSION.outputs.current-version }}
+          currentVersion: ${{ env.PACKAGE_VERSION }}
