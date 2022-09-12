@@ -2,3 +2,4 @@ tailwind.config.js
 src/react-app-env.d.ts
 postcss.config.js
 /node_modules
+/build
