@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { Theme, ThemeProvider, useTheme } from './ThemeProvider'
@@ -48,10 +48,11 @@ describe('ThemeProvider', () => {
     expect(screen.getByText('light')).toBeInTheDocument()
   })
 
-  test('Clicking button changes theme', () => {
+  test('Clicking button changes theme', async () => {
     providerRender(<ThemeExample />)
+    expect(screen.queryByText('dark')).not.toBeInTheDocument()
     userEvent.click(screen.getByRole('button'))
-    expect(screen.getByText('dark')).toBeInTheDocument()
+    await screen.findByText('dark')
     expect(screen.queryByText('light')).not.toBeInTheDocument()
   })
 })
