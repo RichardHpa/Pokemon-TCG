@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar renders Navbar 1`] = `
+<a
+  class="mr-8 flex p-0 text-2xl tracking-tighter no-underline text-gray-700 dark:text-white"
+  href="/"
+>
+  <span
+    class="inline-block font-medium"
+  >
+    Site Logo
+  </span>
+</a>
+`;

@@ -4,9 +4,10 @@ import { cloneElement, useMemo } from 'react'
 import { baseClasses } from 'components/Button/baseClasses'
 
 import type { ButtonProps } from 'components/Button/types'
-
-interface IconButtonProps extends Omit<ButtonProps, 'children'> {
+import type { colors } from 'types/colors'
+interface IconButtonProps extends Omit<ButtonProps, 'children' | 'color'> {
   icon: JSX.Element
+  color?: colors | 'inherit'
 }
 
 const iconButtonClasses = {
