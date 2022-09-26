@@ -8,8 +8,6 @@ describe('Button', () => {
     render(<Button>Test</Button>)
     const button = screen.getByRole('button', { name: /test/i })
     expect(button).toBeInTheDocument()
-
-    expect(button).toMatchSnapshot()
   })
 
   test('renders Button with onClick', () => {
@@ -45,5 +43,10 @@ describe('Button', () => {
   ] as const)('renders Button with variant %s', (variant, expected) => {
     render(<Button variant={variant}>Test</Button>)
     expect(screen.getByRole('button')).toHaveClass(expected)
+  })
+
+  test('renders Button snapshot', () => {
+    const { container } = render(<Button />)
+    expect(container).toMatchSnapshot()
   })
 })

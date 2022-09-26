@@ -1,11 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NavLink renders NavLink 1`] = `
-<a
-  aria-current="page"
-  class="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded-md text-sm font-medium hover:underline active"
-  href="/"
->
-  Test
-</a>
+exports[`NavLink renders NavLink snapshot 1`] = `
+<div>
+  <a
+    aria-current="page"
+    class="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded-md text-sm font-medium hover:underline active"
+    href="/"
+  >
+    Test
+  </a>
+</div>
 `;

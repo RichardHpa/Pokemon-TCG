@@ -14,8 +14,6 @@ describe('Navbar', () => {
     const link = screen.getByRole('link', { name: /site logo/i })
 
     expect(link).toBeInTheDocument()
-
-    expect(link).toMatchSnapshot()
   })
 
   test('renders all links', () => {
@@ -26,5 +24,10 @@ describe('Navbar', () => {
 
     expect(homeLink).toBeInTheDocument()
     expect(aboutLink).toBeInTheDocument()
+  })
+
+  test('renders Navbar snapshot', () => {
+    const { container } = render(<Navbar />)
+    expect(container).toMatchSnapshot()
   })
 })

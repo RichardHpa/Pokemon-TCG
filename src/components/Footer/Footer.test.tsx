@@ -10,7 +10,7 @@ describe('Footer', () => {
     expect(screen.getByText('Copyright © 2020')).toBeInTheDocument()
   })
 
-  test('renders footer snapshot', () => {
+  test('renders Footer snapshot', () => {
     const { container } = render(<Footer />)
     expect(container).toMatchSnapshot()
   })

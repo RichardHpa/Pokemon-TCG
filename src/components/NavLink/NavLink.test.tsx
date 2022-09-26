@@ -13,8 +13,6 @@ describe('NavLink', () => {
     const link = screen.getByRole('link', { name: /test/i })
 
     expect(link).toBeInTheDocument()
-
-    expect(link).toMatchSnapshot()
   })
 
   test('renders NavLink with className', () => {
@@ -27,5 +25,10 @@ describe('NavLink', () => {
     const link = screen.getByRole('link', { name: /test/i })
 
     expect(link).toHaveClass('test')
+  })
+
+  test('renders NavLink snapshot', () => {
+    const { container } = render(<NavLink to='/'>Test</NavLink>)
+    expect(container).toMatchSnapshot()
   })
 })

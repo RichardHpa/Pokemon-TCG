@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Footer renders footer snapshot 1`] = `
+exports[`Footer renders Footer snapshot 1`] = `
 <div>
   <footer
     class="px-2 sm:px-4 mt-auto"
