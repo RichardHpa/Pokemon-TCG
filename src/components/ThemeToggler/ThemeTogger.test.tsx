@@ -14,8 +14,6 @@ describe('ThemeToggler', () => {
     const button = screen.getByRole('button', { name: /switch to dark mode/i })
 
     expect(button).toBeInTheDocument()
-
-    expect(button).toMatchSnapshot()
   })
 
   test('clicks on the button changes to theme', () => {
@@ -29,5 +27,10 @@ describe('ThemeToggler', () => {
     const newButton = screen.getByRole('button', { name: /switch to light mode/i })
     expect(screen.queryByRole('button', { name: /switch to dark mode/i })).not.toBeInTheDocument()
     expect(newButton).toBeInTheDocument()
+  })
+
+  test('renders ThemeToggler snapshot', () => {
+    const { container } = render(<ThemeToggler />)
+    expect(container).toMatchSnapshot()
   })
 })
