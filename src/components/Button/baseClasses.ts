@@ -22,7 +22,7 @@ export const baseClasses = {
       danger:
         'text-red-500 hover:bg-red-500 hover:text-white border-transparent hover:bg-opacity-25',
       inherit:
-        'text-inherit-500 hover:bg-inherit-500 hover:text-white border-transparent hover:bg-opacity-25',
+        'text-inherit-500 hover:bg-inherit-500 hover:text-inherit-500 border-transparent hover:bg-opacity-25',
     },
   },
 }

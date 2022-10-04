@@ -11,7 +11,7 @@ export const Navbar = () => {
             className='mr-8 flex p-0 text-2xl tracking-tighter no-underline text-gray-700 dark:text-white'
             to='/'
           >
-            <span className='inline-block font-medium'>Site Logo</span>
+            <span className='inline-block font-medium'>Pokemon Card Checker</span>
           </Link>
           <NavLink to='/'>Home</NavLink>
           <NavLink to='/about'>About</NavLink>
