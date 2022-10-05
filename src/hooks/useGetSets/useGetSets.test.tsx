@@ -7,7 +7,6 @@ describe('useGetSets', () => {
   it('should return data', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
       useGetSets({
-        page: 1,
         pageSize: 4,
         orderBy: '-releaseDate',
       }),
@@ -16,7 +15,7 @@ describe('useGetSets', () => {
     await waitForNextUpdate()
 
     expect(result.current.data).toBeDefined()
-    expect(result.current.data?.data).toEqual(sets)
+    expect(result.current.data.data).toEqual(sets)
   })
 
   it('should work with no values', async () => {
@@ -25,6 +24,6 @@ describe('useGetSets', () => {
     await waitForNextUpdate()
 
     expect(result.current.data).toBeDefined()
-    expect(result.current.data?.data).toEqual(sets)
+    expect(result.current.data.data).toEqual(sets)
   })
 })

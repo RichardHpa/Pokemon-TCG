@@ -1,6 +1,6 @@
 export interface UseGetSets {
   query?: string
-  page?: number
+  // page?: number
   pageSize?: number
   orderBy?: string
 }

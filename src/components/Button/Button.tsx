@@ -6,11 +6,12 @@ import { baseClasses } from './baseClasses'
 import type { ButtonProps } from './types'
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ color = 'primary', className, variant = 'solid', disabled, ...props }, ref) => {
+  ({ color = 'primary', className, variant = 'solid', disabled, onClick, ...props }, ref) => {
     return (
       <button
         disabled={disabled}
         ref={ref}
+        onClick={onClick}
         className={clsx(
           baseClasses.base,
           baseClasses.variant[variant][color],
