@@ -11,7 +11,7 @@ describe('Navbar', () => {
   test('renders Navbar', () => {
     render(<Navbar />)
 
-    const link = screen.getByRole('link', { name: /site logo/i })
+    const link = screen.getByRole('link', { name: /Pokemon Card Checker/i })
 
     expect(link).toBeInTheDocument()
   })
