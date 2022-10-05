@@ -14,7 +14,7 @@ export const Navbar = () => {
             <span className='inline-block font-medium'>Pokemon Card Checker</span>
           </Link>
           <NavLink to='/'>Home</NavLink>
-          <NavLink to='/about'>About</NavLink>
+          <NavLink to='/sets'>Sets</NavLink>
         </div>
         <ThemeToggler />
       </div>

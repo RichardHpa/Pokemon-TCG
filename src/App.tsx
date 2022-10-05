@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import { Navbar } from 'components/Navbar'
 import { Footer } from 'components/Footer'
-import { Home } from 'pages'
+import { Home, Sets } from 'pages'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <div className='container mx-auto py-6'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='about' element={<>About</>} />
+          <Route path='sets' element={<Sets />} />
           <Route path='*' element={<>404</>} />
         </Routes>
       </div>
