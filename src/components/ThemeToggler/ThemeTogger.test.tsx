@@ -16,13 +16,13 @@ describe('ThemeToggler', () => {
     expect(button).toBeInTheDocument()
   })
 
-  test('clicks on the button changes to theme', () => {
+  test('clicks on the button changes to theme', async () => {
     render(<ThemeToggler />)
     const button = screen.getByRole('button', { name: /switch to dark mode/i })
     expect(button).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /switch to light mode/i })).not.toBeInTheDocument()
 
-    userEvent.click(button)
+    await userEvent.click(button)
 
     const newButton = screen.getByRole('button', { name: /switch to light mode/i })
     expect(screen.queryByRole('button', { name: /switch to dark mode/i })).not.toBeInTheDocument()

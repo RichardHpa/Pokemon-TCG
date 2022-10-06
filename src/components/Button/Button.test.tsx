@@ -10,10 +10,10 @@ describe('Button', () => {
     expect(button).toBeInTheDocument()
   })
 
-  test('renders Button with onClick', () => {
+  test('renders Button with onClick', async () => {
     const onClick = jest.fn()
     render(<Button onClick={onClick}>Test</Button>)
-    userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByRole('button'))
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
