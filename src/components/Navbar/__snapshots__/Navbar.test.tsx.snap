@@ -18,7 +18,7 @@ exports[`Navbar renders Navbar snapshot 1`] = `
           <span
             class="inline-block font-medium"
           >
-            Site Logo
+            Pokemon Card Checker
           </span>
         </a>
         <a
@@ -30,14 +30,14 @@ exports[`Navbar renders Navbar snapshot 1`] = `
         </a>
         <a
           class="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded-md text-sm font-medium hover:underline"
-          href="/about"
+          href="/sets"
         >
-          About
+          Sets
         </a>
       </div>
       <button
         aria-label="Switch to dark mode"
-        class="inline-flex align-middle justify-center rounded-full p-2 text-inherit-500 hover:bg-inherit-500 hover:text-white border-transparent hover:bg-opacity-25"
+        class="inline-flex align-middle justify-center rounded-full p-2 text-inherit-500 hover:bg-inherit-500 hover:text-inherit-500 border-transparent hover:bg-opacity-25"
       >
         <svg
           aria-hidden="true"

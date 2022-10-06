@@ -11,7 +11,7 @@ describe('Navbar', () => {
   test('renders Navbar', () => {
     render(<Navbar />)
 
-    const link = screen.getByRole('link', { name: /site logo/i })
+    const link = screen.getByRole('link', { name: /Pokemon Card Checker/i })
 
     expect(link).toBeInTheDocument()
   })
@@ -20,10 +20,10 @@ describe('Navbar', () => {
     render(<Navbar />)
 
     const homeLink = screen.getByRole('link', { name: /home/i })
-    const aboutLink = screen.getByRole('link', { name: /about/i })
+    const setsLink = screen.getByRole('link', { name: /sets/i })
 
     expect(homeLink).toBeInTheDocument()
-    expect(aboutLink).toBeInTheDocument()
+    expect(setsLink).toBeInTheDocument()
   })
 
   test('renders Navbar snapshot', () => {
