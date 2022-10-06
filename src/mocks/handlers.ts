@@ -9,9 +9,9 @@ export const handlers = [
       ctx.json({
         data: sets,
         page: 1,
-        pageSize: 20,
+        pageSize: sets.length,
         count: sets.length,
-        totalCount: 100,
+        totalCount: sets.length,
       }),
     )
   }),

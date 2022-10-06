@@ -5,7 +5,7 @@ import { SetCard } from 'components/SetCard'
 import type { Set } from 'types/fixtures/set'
 
 export const Home = () => {
-  const { data, error } = useGetSets({
+  const { loading, data, error } = useGetSets({
     pageSize: 3,
     orderBy: '-releaseDate',
   })
@@ -14,25 +14,31 @@ export const Home = () => {
     return <div>Error</div>
   }
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
       <h1 className='text-3xl font-bold text-gray-800 dark:text-white text-center mb-4'>
         Latest Pokemon TCG Sets
       </h1>
-      <div className='grid grid-cols-3 gap-3'>
-        {data?.data.map((set: Set) => {
-          return (
-            <div key={set.id} className='flex-1 items-stretch'>
-              <SetCard
-                name={set.name}
-                series={set.series}
-                releaseDate={set.releaseDate}
-                image={set.images.logo}
-              />
-            </div>
-          )
-        })}
-      </div>
+      {data?.data && (
+        <div className='grid grid-cols-3 gap-3'>
+          {data?.data.map((set: Set) => {
+            return (
+              <div key={set.id} className='flex-1 items-stretch'>
+                <SetCard
+                  name={set.name}
+                  series={set.series}
+                  releaseDate={set.releaseDate}
+                  image={set.images.logo}
+                />
+              </div>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
