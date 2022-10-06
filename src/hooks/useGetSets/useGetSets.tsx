@@ -8,7 +8,7 @@ const apiRoute = 'https://api.pokemontcg.io/v2/sets'
 
 export const useGetSets = ({ query = '', pageSize = 20, orderBy = '' }: UseGetSets = {}) => {
   const [page, setPage] = useState(1)
-  const [isFetching, setIsFetching] = useState(true)
+  const [isFetching, setIsFetching] = useState(false)
 
   const [{ data, loading, error }] = useAxios({
     url: apiRoute,
