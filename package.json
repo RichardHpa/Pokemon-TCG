@@ -55,7 +55,6 @@
     "**/*.{ts,tsx}": "npx tsc-files --noEmit"
   },
   "devDependencies": {
-    "@testing-library/react-hooks": "^8.0.1",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
     "autoprefixer": "^10.4.12",
