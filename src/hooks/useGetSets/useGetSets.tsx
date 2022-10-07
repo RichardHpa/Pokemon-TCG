@@ -9,8 +9,9 @@ const apiRoute = 'https://api.pokemontcg.io/v2/sets'
 export const useGetSets = ({ query = '', pageSize = 20, orderBy = '' }: UseGetSets = {}) => {
   const [page, setPage] = useState(1)
   const [isFetching, setIsFetching] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  const [{ data, loading, error }] = useAxios({
+  const [{ data, loading: apiLoading, error }] = useAxios({
     url: apiRoute,
     params: {
       q: query,
@@ -22,9 +23,12 @@ export const useGetSets = ({ query = '', pageSize = 20, orderBy = '' }: UseGetSe
 
   useEffect(() => {
     if (data) {
+      if (loading) {
+        setLoading(false)
+      }
       setIsFetching(false)
     }
-  }, [data])
+  }, [data, loading])
 
   const loadMore = () => {
     setPage(page + 1)
@@ -33,10 +37,11 @@ export const useGetSets = ({ query = '', pageSize = 20, orderBy = '' }: UseGetSe
 
   return {
     data,
-    loading,
+    apiLoading,
     error,
 
     isFetching,
     loadMore,
+    loading,
   }
 }

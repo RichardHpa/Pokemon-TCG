@@ -10,19 +10,29 @@ interface LoadingPokeBallProps {
 
 export const LoadingPokeBall = ({
   size = 50,
-  loading = false,
+  loading = true,
   opened = false,
 }: LoadingPokeBallProps) => {
   const ballState = useMemo(() => {
     if (opened) {
       return 'opened'
     }
+    if (loading) {
+      return 'fetching'
+    }
 
-    return 'fetching'
-  }, [opened])
+    return 'opened'
+  }, [loading, opened])
 
   return (
-    <svg viewBox='0 0 100 100' width={size} height={size} className={clsx(ballState)}>
+    <svg
+      viewBox='0 0 100 100'
+      width={size}
+      height={size}
+      className={clsx(ballState)}
+      role='progress'
+      aria-label={ballState}
+    >
       <g transform='translate(50 50) scale(0.8)'>
         <g transform='translate(0 50)'>
           <g className='gravity'>
