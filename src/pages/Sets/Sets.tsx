@@ -1,13 +1,15 @@
+import { useMemo } from 'react'
+
 import { useGetSets } from 'hooks/useGetSets'
 
 import { SetCard } from 'components/SetCard'
 import { Button } from 'components/Button'
+import { LoadingPokeBall } from 'components/LoadingPokeBall'
 
 import type { Set } from 'types/fixtures/set'
-import { useMemo } from 'react'
 
 export const Sets = () => {
-  const { data, error, loadMore, isFetching } = useGetSets({
+  const { data, error, loadMore, isFetching, loading } = useGetSets({
     pageSize: 8,
     orderBy: 'releaseDate',
   })
@@ -29,6 +31,11 @@ export const Sets = () => {
       <h1 className='text-3xl font-bold text-gray-800 dark:text-white text-center mb-4'>
         All Pokemon TCG Sets
       </h1>
+      {loading && (
+        <div className='flex justify-center'>
+          <LoadingPokeBall size='100' loading={true} />
+        </div>
+      )}
       <div className='grid grid-cols-4 gap-3'>
         {data?.data.map((set: Set) => {
           return (

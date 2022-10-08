@@ -1,6 +1,7 @@
 import { useGetSets } from 'hooks/useGetSets'
 
 import { SetCard } from 'components/SetCard'
+import { LoadingPokeBall } from 'components/LoadingPokeBall'
 
 import type { Set } from 'types/fixtures/set'
 
@@ -15,7 +16,11 @@ export const Home = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className='flex justify-center'>
+        <LoadingPokeBall size='100' loading={true} />
+      </div>
+    )
   }
 
   return (
