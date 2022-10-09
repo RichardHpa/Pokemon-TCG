@@ -1,14 +1,12 @@
+import { Legalities } from 'types/cardInfo'
+
 export interface Set {
   id: string
   name: string
   series: string
   printedTotal: number
   total: number
-  legalities: {
-    unlimited: string
-    standard: string
-    expanded: string
-  }
+  legalities: Legalities
   ptcgoCode: string
   releaseDate: string
   updatedAt: string
