@@ -2,6 +2,7 @@ import { useGetSets } from 'hooks/useGetSets'
 
 import { SetCard } from 'components/SetCard'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
+import { SearchCard } from './components/SearchCard'
 
 import type { Set } from 'types/fixtures/set'
 
@@ -29,7 +30,7 @@ export const Home = () => {
         Latest Pokemon TCG Sets
       </h1>
       {data?.data && (
-        <div className='grid grid-cols-3 gap-3'>
+        <div className='grid grid-cols-3 gap-3 mb-5'>
           {data?.data.map((set: Set) => {
             return (
               <div key={set.id} className='flex-1 items-stretch'>
@@ -44,6 +45,8 @@ export const Home = () => {
           })}
         </div>
       )}
+
+      <SearchCard />
     </div>
   )
 }
