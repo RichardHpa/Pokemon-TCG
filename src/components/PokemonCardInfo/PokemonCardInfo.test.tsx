@@ -28,4 +28,9 @@ describe('PokemonCardInfo', () => {
       ),
     ).toBeInTheDocument()
   })
+
+  test('should show loading state', () => {
+    render(<PokemonCardInfo loading />)
+    expect(screen.getByLabelText('loading card image')).toBeInTheDocument()
+  })
 })

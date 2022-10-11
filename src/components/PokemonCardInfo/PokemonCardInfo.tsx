@@ -21,7 +21,11 @@ export const PokemonCardInfo = ({ card, loading }: PokemonCardInfoProps) => {
   return (
     <div className='flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row  hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 '>
       {imageLoading && (
-        <div role='status' className='animate-pulse min-w-[245px] h-[342px]'>
+        <div
+          role='status'
+          className='animate-pulse min-w-[245px] h-[342px]'
+          aria-label='loading card image'
+        >
           <div className='flex justify-center items-center w-full h-full bg-gray-300 rounded dark:bg-gray-700' />
           <span className='sr-only'>Loading...</span>
         </div>
