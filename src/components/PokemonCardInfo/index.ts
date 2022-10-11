@@ -1,0 +1,1 @@
+export { PokemonCardInfo } from './PokemonCardInfo'
