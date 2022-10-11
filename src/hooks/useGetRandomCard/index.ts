@@ -1,0 +1,1 @@
+export { useGetRandomCard } from './useGetRandomCard'
