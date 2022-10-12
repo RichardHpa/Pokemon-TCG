@@ -6,9 +6,12 @@ import { PokemonCardInfo } from 'components/PokemonCardInfo'
 
 import { useGetCards } from 'hooks/useGetCard'
 
+import { MouseEvent } from 'react'
+
 export const SearchCard = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [search, setSearch] = useState(false)
+  const [pokemonData, setPokemonData] = useState()
 
   const { data, loading } = useGetCards({
     query: `name:"${searchTerm}*"`,
@@ -19,11 +22,18 @@ export const SearchCard = () => {
   useEffect(() => {
     if (data) {
       setSearch(false)
+      if (data.data.length) {
+        setPokemonData(data.data[0])
+      } else {
+        setPokemonData(undefined)
+      }
     }
   }, [data])
 
-  const handleSearch = () => {
+  const handleSearch = (e: MouseEvent) => {
+    e.preventDefault()
     setSearch(true)
+    setPokemonData(undefined)
   }
 
   return (
@@ -67,9 +77,9 @@ export const SearchCard = () => {
         </div>
       </div>
 
-      {data && data?.data.length > 0 && (
+      {(pokemonData || search) && (
         <div className='col-span-2'>
-          <PokemonCardInfo card={data?.data[0]} />
+          <PokemonCardInfo card={pokemonData} loading={loading} />
         </div>
       )}
       {data && data?.data.length === 0 && (
