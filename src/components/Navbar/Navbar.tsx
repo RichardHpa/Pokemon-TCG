@@ -15,6 +15,7 @@ export const Navbar = () => {
           </Link>
           <NavLink to='/'>Home</NavLink>
           <NavLink to='/sets'>Sets</NavLink>
+          <NavLink to='/cards'>Cards</NavLink>
         </div>
         <ThemeToggler />
       </div>
