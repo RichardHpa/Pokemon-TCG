@@ -16,6 +16,7 @@ export const Navbar = () => {
           <NavLink to='/'>Home</NavLink>
           <NavLink to='/sets'>Sets</NavLink>
           <NavLink to='/cards'>Cards</NavLink>
+          <NavLink to='/pokemon'>Pokemon</NavLink>
         </div>
         <ThemeToggler />
       </div>
