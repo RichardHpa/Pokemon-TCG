@@ -23,13 +23,11 @@ async function main() {
   }
 
   root.render(
-    <React.StrictMode>
-      <HashRouter>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </HashRouter>
-    </React.StrictMode>,
+    <HashRouter>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </HashRouter>,
   )
 }
 
