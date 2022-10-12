@@ -32,10 +32,10 @@ export const Home = () => {
           Latest Pokemon TCG Sets
         </h1>
         {data?.data && (
-          <div className='grid grid-cols-3 gap-3'>
+          <div className='grid grid-cols-3 gap-3' role='list'>
             {data?.data.map((set: Set) => {
               return (
-                <div key={set.id} className='flex-1 items-stretch'>
+                <div key={set.id} className='flex-1 items-stretch' role='listitem'>
                   <SetCard
                     name={set.name}
                     series={set.series}

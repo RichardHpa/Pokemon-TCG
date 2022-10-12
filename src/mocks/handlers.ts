@@ -4,14 +4,21 @@ import { sets } from 'fixtures/sets'
 import { cards } from 'fixtures/cards'
 
 export const handlers = [
-  rest.get('https://api.pokemontcg.io/v2/sets', (_req, res, ctx) => {
+  rest.get('https://api.pokemontcg.io/v2/sets', (req, res, ctx) => {
+    const pageSize = req.url.searchParams.get('pageSize')
+    // return all sets if pageSize is not specified
+    let response = sets
+    if (pageSize) {
+      response = sets.slice(0, Number(pageSize))
+    }
+
     return res(
       ctx.status(200),
       ctx.json({
-        data: sets,
+        data: response,
         page: 1,
-        pageSize: sets.length,
-        count: sets.length,
+        pageSize: response.length,
+        count: response.length,
         totalCount: sets.length,
       }),
     )
