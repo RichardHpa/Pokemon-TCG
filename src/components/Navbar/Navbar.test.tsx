@@ -19,7 +19,7 @@ describe('Navbar', () => {
   test('renders all links', () => {
     render(<Navbar />)
 
-    expect(screen.getAllByRole('link')).toHaveLength(5)
+    expect(screen.getAllByRole('link')).toHaveLength(3)
 
     const homeLink = screen.getByRole('link', { name: /home/i })
     const setsLink = screen.getByRole('link', { name: /sets/i })
