@@ -2,6 +2,7 @@ import { useGetSets } from 'hooks/useGetSets'
 
 import { SetCard } from 'components/SetCard'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
+import { SearchCard } from './components/SearchCard'
 
 import { RandomCard } from './components/RandomCard'
 
@@ -50,6 +51,8 @@ export const Home = () => {
       </div>
 
       <RandomCard />
+
+      <SearchCard />
     </div>
   )
 }
