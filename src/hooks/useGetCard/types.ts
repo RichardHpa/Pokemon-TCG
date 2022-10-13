@@ -3,4 +3,5 @@ export interface UseGetCards {
   pageSize?: number
   orderBy?: string
   manual?: boolean
+  page?: number
 }

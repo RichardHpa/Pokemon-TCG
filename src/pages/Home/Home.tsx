@@ -4,6 +4,8 @@ import { SetCard } from 'components/SetCard'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
 import { SearchCard } from './components/SearchCard'
 
+import { RandomCard } from './components/RandomCard'
+
 import type { Set } from 'types/fixtures/set'
 
 export const Home = () => {
@@ -26,25 +28,29 @@ export const Home = () => {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold text-gray-800 dark:text-white text-center mb-4'>
-        Latest Pokemon TCG Sets
-      </h1>
-      {data?.data && (
-        <div className='grid grid-cols-3 gap-3' role='list'>
-          {data?.data.map((set: Set) => {
-            return (
-              <div key={set.id} className='flex-1 items-stretch' role='listitem'>
-                <SetCard
-                  name={set.name}
-                  series={set.series}
-                  releaseDate={set.releaseDate}
-                  image={set.images.logo}
-                />
-              </div>
-            )
-          })}
-        </div>
-      )}
+      <div className='mb-6'>
+        <h1 className='text-3xl font-bold text-gray-800 dark:text-white text-center mb-4'>
+          Latest Pokemon TCG Sets
+        </h1>
+        {data?.data && (
+          <div className='grid grid-cols-3 gap-3' role='list'>
+            {data?.data.map((set: Set) => {
+              return (
+                <div key={set.id} className='flex-1 items-stretch' role='listitem'>
+                  <SetCard
+                    name={set.name}
+                    series={set.series}
+                    releaseDate={set.releaseDate}
+                    image={set.images.logo}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      <RandomCard />
 
       <SearchCard />
     </div>
