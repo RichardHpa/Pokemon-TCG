@@ -1,0 +1,1 @@
+export { useGetSet } from './useGetSet'
