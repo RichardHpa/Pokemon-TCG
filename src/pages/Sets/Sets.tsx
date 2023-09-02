@@ -45,7 +45,7 @@ export const Sets = () => {
         </div>
       )}
 
-      <div className='grid grid-cols-4 gap-3'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
         {data?.data.map((set: Set) => {
           return (
             <div key={set.id} className='flex-1 items-stretch'>

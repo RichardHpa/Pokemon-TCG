@@ -6,13 +6,13 @@ exports[`Navbar renders Navbar snapshot 1`] = `
     class="border-gray-200 px-2 sm:px-4 py-2.5"
   >
     <div
-      class="container flex flex-wrap justify-between items-center mx-auto border-b py-2"
+      class="container flex flex-wrap justify-center sm:justify-between items-center mx-auto border-b py-2"
     >
       <div
         class="flex"
       >
         <a
-          class="mr-8 flex p-0 text-2xl tracking-tighter no-underline text-gray-700 dark:text-white"
+          class="flex p-0 text-2xl tracking-tighter no-underline text-gray-700 dark:text-white"
           href="/"
         >
           <span
@@ -21,6 +21,10 @@ exports[`Navbar renders Navbar snapshot 1`] = `
             Pokemon Card Checker
           </span>
         </a>
+      </div>
+      <div
+        class=""
+      >
         <a
           aria-current="page"
           class="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded-md text-sm font-medium hover:underline active"
@@ -40,25 +44,25 @@ exports[`Navbar renders Navbar snapshot 1`] = `
         >
           Search
         </a>
-      </div>
-      <button
-        aria-label="Switch to dark mode"
-        class="inline-flex align-middle justify-center rounded-full p-2 text-inherit-500 hover:bg-inherit-500 hover:text-inherit-500 border-transparent hover:bg-opacity-25"
-      >
-        <svg
-          aria-hidden="true"
-          class="h-6 w-6 inline-block"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+        <button
+          aria-label="Switch to dark mode"
+          class="inline-flex align-middle justify-center rounded-full p-2 text-inherit-500 hover:bg-inherit-500 hover:text-inherit-500 border-transparent hover:bg-opacity-25"
         >
-          <path
-            clip-rule="evenodd"
-            d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
-            fill-rule="evenodd"
-          />
-        </svg>
-      </button>
+          <svg
+            aria-hidden="true"
+            class="h-6 w-6 inline-block"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
   </nav>
 </div>
