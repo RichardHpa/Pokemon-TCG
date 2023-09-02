@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import { Navbar } from 'components/Navbar'
 import { Footer } from 'components/Footer'
-import { Home, Sets, Set } from 'pages'
+import { Home, Sets, Set, Search } from 'pages'
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='sets' element={<Sets />} />
           <Route path='sets/:id' element={<Set />} />
+          <Route path='search' element={<Search />} />
           <Route path='*' element={<>404</>} />
         </Routes>
       </div>

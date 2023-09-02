@@ -4,7 +4,7 @@ import { Button } from 'components/Button'
 
 import { PokemonCardInfo } from 'components/PokemonCardInfo'
 
-import { useGetCards } from 'hooks/useGetCard'
+import { useGetCards } from 'hooks/useGetCards'
 
 import { MouseEvent } from 'react'
 
