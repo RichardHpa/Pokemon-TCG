@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useGetSets } from 'hooks/useGetSets'
 
 import { SetCard } from 'components/SetCard'
 import { Button } from 'components/Button'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
+import { BreadcrumbHeader } from 'components/BreadcrumbHeader'
 
 import type { Set } from 'types/fixtures/set'
 
@@ -28,24 +30,33 @@ export const Sets = () => {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold text-gray-800 dark:text-white text-center mb-4'>
-        All Pokemon TCG Sets
-      </h1>
+      <BreadcrumbHeader
+        title='Pokemon TCG Sets'
+        breadcrumbs={[
+          {
+            label: 'Sets',
+          },
+        ]}
+      />
+
       {loading && (
         <div className='flex justify-center'>
           <LoadingPokeBall size='100' loading={true} />
         </div>
       )}
+
       <div className='grid grid-cols-4 gap-3'>
         {data?.data.map((set: Set) => {
           return (
             <div key={set.id} className='flex-1 items-stretch'>
-              <SetCard
-                name={set.name}
-                series={set.series}
-                releaseDate={set.releaseDate}
-                image={set.images.logo}
-              />
+              <Link to={`/sets/${set.id}`}>
+                <SetCard
+                  name={set.name}
+                  series={set.series}
+                  releaseDate={set.releaseDate}
+                  image={set.images.logo}
+                />
+              </Link>
             </div>
           )
         })}

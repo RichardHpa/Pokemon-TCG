@@ -1,8 +1,11 @@
+import { Link } from 'react-router-dom'
+
 import { useGetSets } from 'hooks/useGetSets'
 
 import { SetCard } from 'components/SetCard'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
 import { SearchCard } from './components/SearchCard'
+import { BreadcrumbHeader } from 'components/BreadcrumbHeader'
 
 import { RandomCard } from './components/RandomCard'
 
@@ -29,20 +32,21 @@ export const Home = () => {
   return (
     <div>
       <div className='mb-6'>
-        <h1 className='text-3xl font-bold text-gray-800 dark:text-white text-center mb-4'>
-          Latest Pokemon TCG Sets
-        </h1>
+        <BreadcrumbHeader title='Latest Pokemon TCG Sets' />
+
         {data?.data && (
           <div className='grid grid-cols-3 gap-3' role='list'>
             {data?.data.map((set: Set) => {
               return (
                 <div key={set.id} className='flex-1 items-stretch' role='listitem'>
-                  <SetCard
-                    name={set.name}
-                    series={set.series}
-                    releaseDate={set.releaseDate}
-                    image={set.images.logo}
-                  />
+                  <Link to={`/sets/${set.id}`}>
+                    <SetCard
+                      name={set.name}
+                      series={set.series}
+                      releaseDate={set.releaseDate}
+                      image={set.images.logo}
+                    />
+                  </Link>
                 </div>
               )
             })}
