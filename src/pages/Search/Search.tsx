@@ -29,7 +29,7 @@ const sortOptions = [
   { label: 'Release Date (DSC', value: 'set.releaseDate,number' },
 ]
 
-const pageSize = 5
+const pageSize = 20
 const useFetchCards = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<Response>()
@@ -120,12 +120,12 @@ export const Search = () => {
       <BreadcrumbHeader title={'Search for cards'} />
 
       <Card>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-4 flex-col md:flex-row'>
           <Input onChange={handleOnChange} placeholder='Search For Card' />
-          <div className='flex-initial w-64'>
+          <div className='w-full md:flex-initial md:w-64'>
             <Select options={selectOptions} onChange={handleOnChangeSelect} />
           </div>
-          <div className='flex-initial w-72'>
+          <div className='w-full md:flex-initial md:w-72'>
             <Select options={sortOptions} onChange={handleOnChangeSort} />
           </div>
           <Button onClick={handleSearch}>Search</Button>
@@ -138,7 +138,7 @@ export const Search = () => {
         </div>
       )}
 
-      <div className='grid grid-cols-5 gap-4 my-4'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 my-4'>
         {data?.data.map((card: CardProps) => {
           return (
             <div key={card.id}>
