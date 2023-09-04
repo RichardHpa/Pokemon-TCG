@@ -16,7 +16,6 @@ describe('useGetCards', () => {
       expect(result.current.loading).toEqual(false)
     })
 
-    expect(result.current.data).toBeDefined()
-    expect(result.current.data.data).toEqual(cards)
+    expect(result.current.cards).toEqual(cards)
   })
 })

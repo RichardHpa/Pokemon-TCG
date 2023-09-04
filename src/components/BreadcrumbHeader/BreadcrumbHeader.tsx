@@ -31,7 +31,7 @@ export const BreadcrumbHeader = ({ title, breadcrumbs }: BreadcrumbHeaderProps) 
                 <div className='flex items-center'>
                   <svg
                     aria-hidden='true'
-                    className='w-6 h-6 text-gray-400'
+                    className='w-6 h-4 text-gray-400'
                     fill='currentColor'
                     viewBox='0 0 20 20'
                     xmlns='http://www.w3.org/2000/svg'
@@ -45,7 +45,7 @@ export const BreadcrumbHeader = ({ title, breadcrumbs }: BreadcrumbHeaderProps) 
                   {/* If this is the last breadcrumb, don't make it a link */}
                   {index === breadcrumbs.length - 1 ? (
                     <span
-                      className='ml-1 text-sm font-medium text-gray-700 dark:text-gray-400'
+                      className='ml-1 text-xs font-medium text-gray-700 dark:text-gray-400'
                       aria-current='page'
                     >
                       {breadcrumb.label}

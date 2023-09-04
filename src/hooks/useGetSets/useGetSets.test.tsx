@@ -17,8 +17,7 @@ describe('useGetSets', () => {
       expect(result.current.loading).toEqual(false)
     })
 
-    expect(result.current.data).toBeDefined()
-    expect(result.current.data.data).toEqual(sets)
+    expect(result.current.sets).toEqual(sets)
   })
 
   it('should work with no values', async () => {
@@ -28,7 +27,6 @@ describe('useGetSets', () => {
       expect(result.current.loading).toEqual(false)
     })
 
-    expect(result.current.data).toBeDefined()
-    expect(result.current.data.data).toEqual(sets)
+    expect(result.current.sets).toEqual(sets)
   })
 })

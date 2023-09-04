@@ -11,14 +11,10 @@ import { RandomCard } from './components/RandomCard'
 import type { Set } from 'types/fixtures/set'
 
 export const Home = () => {
-  const { loading, data, error } = useGetSets({
+  const { loading, sets } = useGetSets({
     pageSize: 3,
     orderBy: '-releaseDate',
   })
-
-  if (error) {
-    return <div>Error</div>
-  }
 
   if (loading) {
     return (
@@ -33,9 +29,9 @@ export const Home = () => {
       <div className='mb-6'>
         <BreadcrumbHeader title='Latest Pokemon TCG Sets' />
 
-        {data?.data && (
+        {sets && (
           <div className='grid grid-cols-3 gap-3' role='list'>
-            {data?.data.map((set: Set) => {
+            {sets.map((set: Set) => {
               return (
                 <div key={set.id} className='flex-1 items-stretch' role='listitem'>
                   <Link to={`/sets/${set.id}`}>
