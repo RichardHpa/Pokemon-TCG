@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { BreadcrumbHeader } from 'components/BreadcrumbHeader'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
 import { Button } from 'components/Button'
+import { SingleCardThumbnail } from 'components/SingleCardThumbnail'
 
 import { useGetSet } from 'hooks/useGetSet'
 import { useGetCards } from 'hooks/useGetCards'
@@ -39,7 +40,7 @@ export const Set = () => {
             path: '/sets',
           },
           {
-            label: data?.data?.name,
+            label: data?.name,
           },
         ]}
       />
@@ -57,11 +58,7 @@ export const Set = () => {
           {cards && (
             <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 my-4'>
               {cards.map((card: CardProps) => {
-                return (
-                  <div key={card.id}>
-                    <img src={card?.images.small} alt={card?.name} />
-                  </div>
-                )
+                return <SingleCardThumbnail key={card.id} card={card} />
               })}
             </div>
           )}

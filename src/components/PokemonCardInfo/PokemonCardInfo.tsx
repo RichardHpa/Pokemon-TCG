@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 
+import { Paragraph } from 'components/Paragraph'
+import { Heading } from 'components/Heading'
+
 import type { PokemonCardInfoProps } from './types'
 
 export const PokemonCardInfo = ({ card, loading }: PokemonCardInfoProps) => {
@@ -38,11 +41,9 @@ export const PokemonCardInfo = ({ card, loading }: PokemonCardInfoProps) => {
       />
 
       <div className='flex flex-col justify-between p-8 leading-normal'>
-        <h5 className='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
-          {card?.name && `${card?.name} (${card?.rarity})`}
-        </h5>
+        <Heading level='4'>{card?.name && `${card?.name} (${card?.rarity})`}</Heading>
         <p>{card?.subtypes.join(', ')}</p>
-        <p className='mb-3 font-normal text-gray-700 dark:text-gray-400'>{card?.flavorText}</p>
+        <Paragraph>{card?.flavorText}</Paragraph>
       </div>
     </div>
   )

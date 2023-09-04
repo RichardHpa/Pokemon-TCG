@@ -1,0 +1,1 @@
+export { useGetCard } from './useGetCard'

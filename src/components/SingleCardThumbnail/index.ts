@@ -1,0 +1,1 @@
+export { SingleCardThumbnail } from './SingleCardThumbnail'

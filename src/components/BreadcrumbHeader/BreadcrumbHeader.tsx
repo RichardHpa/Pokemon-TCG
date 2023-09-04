@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 
+import { Heading } from 'components/Heading'
+
 import type { BreadcrumbHeaderProps } from './types'
 
 export const BreadcrumbHeader = ({ title, breadcrumbs }: BreadcrumbHeaderProps) => {
@@ -53,7 +55,7 @@ export const BreadcrumbHeader = ({ title, breadcrumbs }: BreadcrumbHeaderProps) 
                   ) : (
                     <Link
                       to={breadcrumb.path || '/'}
-                      className='ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white'
+                      className='ml-1 text-xs font-medium text-gray-700 hover:text-blue-600  dark:text-gray-400 dark:hover:text-white'
                     >
                       {breadcrumb.label}
                     </Link>
@@ -65,7 +67,7 @@ export const BreadcrumbHeader = ({ title, breadcrumbs }: BreadcrumbHeaderProps) 
         </ol>
       </nav>
 
-      <h1 className='text-3xl font-bold text-gray-800 dark:text-white'>{title}</h1>
+      <Heading level='3'>{title}</Heading>
     </div>
   )
 }
