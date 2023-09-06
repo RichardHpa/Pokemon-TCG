@@ -1,65 +1,109 @@
 import { useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import cheerio from 'cheerio'
+import { load } from 'cheerio'
 
 import { BreadcrumbHeader } from 'components/BreadcrumbHeader'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
 import { Button } from 'components/Button'
 import { Paragraph } from 'components/Paragraph'
 import { Heading } from 'components/Heading'
+import { Alert } from 'components/Alert'
 
 import { Card } from 'components/Card'
 
 import { useGetCard } from 'hooks/useGetCard'
 
-function generateSetId(inputString) {
-  const parts = inputString
-    .split(/(\d+|[a-zA-Z]+)/)
-    .filter(Boolean)
-    .map((part) => {
-      if (/^\d+$/.test(part)) {
-        const number = parseInt(part, 10)
-        return number < 10 ? `0${number}` : part
-      }
-      return part
-    })
+import { storesList, stores } from 'utils/stores'
 
-  if (parts.length >= 2) {
-    parts.splice(0, 2, parts.slice(0, 2).join('')) // Change '-' to ''
+// async function scrapeWebsite(url) {
+//   try {
+//     const response = await axios.get(`https://cors-anywhere.herokuapp.com/${url}`)
+//     // const response = await axios.get(url)
+
+//     const $ = load(response.data)
+
+//     // Now you can use jQuery-like syntax to select and manipulate elements
+//     // const pageTitle = $('.wp-block-post-title').text()
+//     // const paragraphText = $('.wp-container-7 p').text()
+//     const inStock = $('.alertBox--error')
+//     const price = $('.productView-details .price.price--withTax').text()
+
+//     return {
+//       inStock: inStock.length === 0,
+//       price,
+//     }
+//   } catch (error) {
+//     console.error('Error scraping website:', error)
+//     throw error
+//   }
+// }
+
+function stripCorsAnywhere(url) {
+  // Check if the URL starts with "https://cors-anywhere.herokuapp.com/"
+  if (url.startsWith('https://cors-anywhere.herokuapp.com/')) {
+    // Remove the prefix and return the rest of the URL
+    return url.replace('https://cors-anywhere.herokuapp.com/', '')
+  } else {
+    // If the URL doesn't start with the prefix, return it unchanged
+    return url
   }
-
-  return parts[0]
 }
 
-async function scrapeWebsite(url) {
-  try {
-    const response = await axios.get(`https://cors-anywhere.herokuapp.com/${url}`)
-    // const response = await axios.get(url)
-    const $ = cheerio.load(response.data)
+function getWordAfterHttps(url) {
+  const regex = /https:\/\/([^/]+)/
+  const match = url.match(regex)
 
-    // Now you can use jQuery-like syntax to select and manipulate elements
-    // const pageTitle = $('.wp-block-post-title').text()
-    // const paragraphText = $('.wp-container-7 p').text()
-    const inStock = $('.alertBox--error')
-    const price = $('.productView-details .price.price--withTax').text()
-
-    return {
-      inStock: inStock.length === 0,
-      price,
+  if (match && match[1]) {
+    const parts = match[1].split('.')
+    if (parts.length > 0) {
+      return parts[0]
     }
-  } catch (error) {
-    console.error('Error scraping website:', error)
-    throw error
   }
+
+  return null
 }
 
-function addLeadingZeros(inputString) {
-  const parts = inputString.split('-')
-  const firstPart = generateSetId(parts[0])
-  const secondPart = parts[1].padStart(3, '0')
+async function scrapeWebsites(url) {
+  const responses = {}
+  // try {
+  await Promise.allSettled(url.map((endpoint) => axios.get(endpoint))).then(
+    axios.spread((...allData) => {
+      allData.forEach((data) => {
+        if (data.status === 'rejected') {
+          const failedRequest = stripCorsAnywhere(data.reason.request.responseURL)
+          responses[failedRequest] = {
+            status: 'failed',
+          }
+        } else {
+          const requestUrl = stripCorsAnywhere(data.value.request.responseURL)
+          const storeKey = getWordAfterHttps(requestUrl)
+          const $ = load(data.value.data)
+          const outOfStockEl = $(stores[storeKey].soldOutEl)
+          const price = $(stores[storeKey].priceEl).text()
 
-  return `${firstPart}-${secondPart}`
+          responses[requestUrl] = {
+            status: 'success',
+            inStock: outOfStockEl.length === 0,
+            price,
+          }
+        }
+      })
+    }),
+  )
+  return responses
+  // } catch (error) {
+  //   console.error('Error scraping website:', error)
+  // }
+}
+
+const formatStoreUrls = async (card) => {
+  const allUrls: string[] = []
+  storesList.forEach((store) => {
+    const parsedUrls = stores[store].parser(card)
+    allUrls.push(...parsedUrls)
+  })
+  return allUrls
 }
 
 export const SingleCard = () => {
@@ -71,16 +115,29 @@ export const SingleCard = () => {
   const handleSearchStores = useCallback(async () => {
     if (!card) return
     setSearchingStores(true)
-    const getThoseMonsUrl = `${addLeadingZeros(card.id)}-${
-      card.set.printedTotal
-    }-${card.name.replace(/\s/g, '-')}/`
-    await scrapeWebsite(`https://getthosemons.co.nz/${getThoseMonsUrl}`)
-      .then((result) => {
-        console.log(result)
-        setData(result)
-      })
-      .catch((error) => {
-        console.error('Error in useEffect:', error)
+    const formattedUrls = await formatStoreUrls(card)
+
+    await scrapeWebsites(formattedUrls)
+      .then((res) => {
+        const finalObject = {}
+
+        for (const url in res) {
+          for (const key in stores) {
+            if (url.startsWith(stores[key].url)) {
+              if (!finalObject[key]) {
+                finalObject[key] = []
+              }
+              finalObject[key].push({
+                status: res[url].status,
+                url,
+                inStock: res[url].inStock,
+                price: res[url].price,
+              })
+              break // Once a match is found, no need to check other keys
+            }
+          }
+        }
+        setData(finalObject)
       })
       .finally(() => {
         setSearchingStores(false)
@@ -98,11 +155,6 @@ export const SingleCard = () => {
   if (!card) {
     return <>error</>
   }
-  // console.log(card.id)
-  const getThoseMonsUrl = `${addLeadingZeros(card.id)}-${card.set.printedTotal}-${card.name.replace(
-    /\s/g,
-    '-',
-  )}/`
 
   return (
     <div>
@@ -146,56 +198,56 @@ export const SingleCard = () => {
               </div>
             )}
 
-            {data && (
+            {!searchingStores && data && (
               <div className='mt-4'>
-                <Heading level='5'>GetThoseMons</Heading>
-                {data.inStock ? (
-                  <div
-                    className='flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800'
-                    role='alert'
-                  >
-                    <svg
-                      className='flex-shrink-0 inline w-4 h-4 mr-3'
-                      aria-hidden='true'
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                    >
-                      <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z' />
-                    </svg>
-                    <span className='sr-only'>Info</span>
-                    <div>
-                      <span className='font-medium'>In Stock</span> for {data.price}{' '}
-                      <a
-                        href={`https://getthosemons.co.nz/${getThoseMonsUrl}`}
-                        className='font-semibold underline hover:no-underline'
-                        target='_blank'
-                        rel='noreferrer'
-                      >
-                        Go to Listing
-                      </a>
+                {storesList.map((store) => {
+                  return (
+                    <div key={store}>
+                      <Heading level='5' key={store}>
+                        <a href={stores[store].url} target='_blank' rel='noreferrer'>
+                          {stores[store].name}
+                        </a>
+                      </Heading>
+
+                      {data[store].length > 1 && (
+                        <Paragraph>We found multiple variants of this card for this site</Paragraph>
+                      )}
+
+                      {data[store].map((result) => {
+                        if (result.status === 'success') {
+                          if (result.inStock) {
+                            return (
+                              <Alert status='success' key={result.url}>
+                                <span className='font-medium'>In Stock</span> for {result.price}{' '}
+                                <a
+                                  href={result.url}
+                                  className='font-semibold underline hover:no-underline'
+                                  target='_blank'
+                                  rel='noreferrer'
+                                >
+                                  Go to Listing
+                                </a>
+                              </Alert>
+                            )
+                          }
+                          return (
+                            <Alert status='error' key={result.url}>
+                              <span className='font-medium'>Out of Stock</span>
+                            </Alert>
+                          )
+                        }
+                        return (
+                          <Alert status='info' key={result.url}>
+                            <span className='font-medium'>
+                              We were unable to find a result from this site, though they still
+                              might have this card if you search for it yourself.
+                            </span>
+                          </Alert>
+                        )
+                      })}
                     </div>
-                  </div>
-                ) : (
-                  <div
-                    className='flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800'
-                    role='alert'
-                  >
-                    <svg
-                      className='flex-shrink-0 inline w-4 h-4 mr-3'
-                      aria-hidden='true'
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                    >
-                      <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z' />
-                    </svg>
-                    <span className='sr-only'>Info</span>
-                    <div>
-                      <span className='font-medium'>Out of Stock</span>
-                    </div>
-                  </div>
-                )}
+                  )
+                })}
               </div>
             )}
           </Card>

@@ -8,6 +8,8 @@ import { Button } from 'components/Button'
 import { Select } from 'components/Select'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
 
+import { SingleCardThumbnail } from 'components/SingleCardThumbnail'
+
 import { pokemonTypes } from 'constants/pokemonTypes'
 
 import type { Card as CardProps } from 'types/fixtures/card'
@@ -67,7 +69,6 @@ const useFetchCards = () => {
     const url = `https://api.pokemontcg.io/v2/cards?page=1&pageSize=${
       pageSize * (page + 1)
     }&q=types:${type} name:${name}*&orderBy=${sort}`
-    console.log(url)
     await axios
       .get(url)
       .then((res) => {
@@ -144,7 +145,7 @@ export const Search = () => {
         {data?.data.map((card: CardProps) => {
           return (
             <div key={card.id}>
-              <img src={card?.images.small} alt={card?.name} />
+              <SingleCardThumbnail card={card} />
             </div>
           )
         })}
