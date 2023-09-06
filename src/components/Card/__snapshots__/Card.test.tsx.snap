@@ -3,7 +3,7 @@
 exports[`Card renders Card snapshot 1`] = `
 <div>
   <div
-    class="bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 h-full p-4"
+    class="bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 p-4 h-full"
   >
     Test
   </div>

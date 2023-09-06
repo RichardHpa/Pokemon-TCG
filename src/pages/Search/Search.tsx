@@ -8,6 +8,8 @@ import { Button } from 'components/Button'
 import { Select } from 'components/Select'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
 
+import { SingleCardThumbnail } from 'components/SingleCardThumbnail'
+
 import { pokemonTypes } from 'constants/pokemonTypes'
 
 import type { Card as CardProps } from 'types/fixtures/card'
@@ -67,7 +69,6 @@ const useFetchCards = () => {
     const url = `https://api.pokemontcg.io/v2/cards?page=1&pageSize=${
       pageSize * (page + 1)
     }&q=types:${type} name:${name}*&orderBy=${sort}`
-    console.log(url)
     await axios
       .get(url)
       .then((res) => {
@@ -119,30 +120,32 @@ export const Search = () => {
     <div>
       <BreadcrumbHeader title={'Search for cards'} />
 
-      <Card>
-        <div className='flex items-center gap-4 flex-col md:flex-row'>
-          <Input onChange={handleOnChange} placeholder='Search For Card' />
-          <div className='w-full md:flex-initial md:w-64'>
-            <Select options={selectOptions} onChange={handleOnChangeSelect} />
+      <div className='mb-4'>
+        <Card>
+          <div className='flex items-center gap-4 flex-col md:flex-row'>
+            <Input onChange={handleOnChange} placeholder='Search for a card' />
+            <div className='w-full md:flex-initial md:w-64'>
+              <Select options={selectOptions} onChange={handleOnChangeSelect} />
+            </div>
+            <div className='w-full md:flex-initial md:w-72'>
+              <Select options={sortOptions} onChange={handleOnChangeSort} />
+            </div>
+            <Button onClick={handleSearch}>Search</Button>
           </div>
-          <div className='w-full md:flex-initial md:w-72'>
-            <Select options={sortOptions} onChange={handleOnChangeSort} />
-          </div>
-          <Button onClick={handleSearch}>Search</Button>
-        </div>
-      </Card>
+        </Card>
+      </div>
 
       {loading && (
-        <div className='flex justify-center my-2'>
+        <div className='flex justify-center mb-2'>
           <LoadingPokeBall size='100' loading={true} />
         </div>
       )}
 
-      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 my-4'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-4'>
         {data?.data.map((card: CardProps) => {
           return (
             <div key={card.id}>
-              <img src={card?.images.small} alt={card?.name} />
+              <SingleCardThumbnail card={card} />
             </div>
           )
         })}

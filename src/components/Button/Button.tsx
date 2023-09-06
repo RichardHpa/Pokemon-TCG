@@ -1,11 +1,11 @@
+import { forwardRef } from 'react'
 import clsx from 'clsx'
-import React from 'react'
 
 import { baseClasses } from './baseClasses'
 
 import type { ButtonProps } from './types'
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ color = 'primary', className, variant = 'solid', disabled, onClick, ...props }, ref) => {
     return (
       <button

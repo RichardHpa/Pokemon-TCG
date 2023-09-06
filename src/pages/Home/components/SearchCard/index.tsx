@@ -1,1 +1,0 @@
-export { SearchCard } from './SearchCard'

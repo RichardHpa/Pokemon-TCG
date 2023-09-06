@@ -4,7 +4,7 @@ import axios from 'axios'
 import type { Card } from 'types/fixtures/card'
 
 const apiRoute = 'https://api.pokemontcg.io/v2/cards'
-const currentTotalPokemon = 922
+const currentTotalPokemon = 1020
 
 export const useGetRandomCard = () => {
   const [randomCard, setRandomCard] = useState<Card>()

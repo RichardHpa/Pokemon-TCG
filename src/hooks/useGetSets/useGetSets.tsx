@@ -1,47 +1,88 @@
-import { useEffect, useState } from 'react'
-
-import useAxios from 'axios-hooks'
+import { useEffect, useState, useMemo, useCallback } from 'react'
+import axios from 'axios'
 
 import type { UseGetSets } from './types'
+import type { Set } from 'types/fixtures/set'
 
 const apiRoute = 'https://api.pokemontcg.io/v2/sets'
 
-export const useGetSets = ({ query = '', pageSize = 20, orderBy = '' }: UseGetSets = {}) => {
-  const [page, setPage] = useState(1)
-  const [isFetching, setIsFetching] = useState(false)
-  const [loading, setLoading] = useState(true)
+const getSets = async ({ pageSize, query, orderBy, page }) => {
+  try {
+    const response = await axios.get(apiRoute, {
+      params: {
+        q: query,
+        pageSize,
+        orderBy,
+        page,
+      },
+    })
+    return response
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-  const [{ data, loading: apiLoading, error }] = useAxios({
-    url: apiRoute,
-    params: {
-      q: query,
-      page: 1,
-      pageSize: page * pageSize,
-      orderBy,
-    },
-  })
+export const useGetSets = ({ query = '', pageSize = 20, orderBy = '' }: UseGetSets = {}) => {
+  const [sets, setSets] = useState<Set[]>()
+  const [loading, setLoading] = useState<boolean>(true)
+  const [isFetching, setIsFetching] = useState<boolean>(true)
+  const [totalCount, setTotalCount] = useState<number>()
+  const [page, setPage] = useState<number>(1)
+
+  const hasMore = useMemo(() => {
+    if (sets?.length && totalCount) {
+      return sets?.length < totalCount
+    }
+
+    return false
+  }, [sets, totalCount])
 
   useEffect(() => {
-    if (data) {
-      if (loading) {
-        setLoading(false)
-      }
+    ;(async () => {
+      const res = await getSets({ pageSize, query, orderBy, page: 1 })
+      setSets(res?.data.data)
+      setTotalCount(res?.data.totalCount)
+      setLoading(false)
       setIsFetching(false)
-    }
-  }, [data, loading])
+    })()
 
-  const loadMore = () => {
-    setPage(page + 1)
+    return () => {
+      // this now gets called when the component unmounts
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- want this to run on mount
+  }, [])
+
+  const fetchMoreSets = useCallback(async () => {
+    if (!hasMore) return
     setIsFetching(true)
-  }
+
+    const res = await getSets({ pageSize, query, orderBy, page: page + 1 })
+    const newSets = res?.data.data
+    const newCollection = sets ? [...sets, ...newSets] : newSets
+    setSets(newCollection)
+    setIsFetching(false)
+    setPage(page + 1)
+  }, [sets, hasMore, orderBy, page, pageSize, query])
+
+  const fetchSets = useCallback(async () => {
+    setSets([])
+    setIsFetching(true)
+    setLoading(true)
+
+    const res = await getSets({ pageSize, query, orderBy, page: 1 })
+    const newSets = res?.data.data
+    setSets(newSets)
+    setIsFetching(false)
+    setLoading(false)
+    setPage(1)
+  }, [orderBy, pageSize, query])
 
   return {
-    data,
-    apiLoading,
-    error,
-
-    isFetching,
-    loadMore,
+    sets,
     loading,
+    isFetching,
+    hasMore,
+    fetchMoreSets,
+    fetchSets,
   }
 }
