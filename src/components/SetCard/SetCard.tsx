@@ -4,11 +4,14 @@ import { Heading } from 'components/Heading'
 
 import type { Set } from 'types/fixtures/set'
 
-interface SetCardProps extends Pick<Set, 'name' | 'series' | 'releaseDate'> {
+interface SetCardProps extends Pick<Set, 'name' | 'series' | 'releaseDate' | 'total' | 'printedTotal'> {
   image: string
 }
 
-export const SetCard = ({ image, name, series, releaseDate }: SetCardProps) => {
+
+
+export const SetCard = ({ image, name, series, releaseDate, total, printedTotal }: SetCardProps) => {
+  const secretTotal = total - printedTotal;
   return (
     <Card>
       <div className='flex flex-col h-full'>
@@ -21,6 +24,9 @@ export const SetCard = ({ image, name, series, releaseDate }: SetCardProps) => {
 
           <Paragraph>
             {series} - {releaseDate}
+          </Paragraph>
+          <Paragraph>
+          {total} Cards ({secretTotal} Secret Cards)
           </Paragraph>
         </div>
       </div>
