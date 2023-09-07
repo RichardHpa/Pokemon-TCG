@@ -1,10 +1,12 @@
 import type { Card } from 'types/fixtures/card'
 
+import { proxyServerUrl } from 'constants/api'
+
 export const parseTcgCollectorsUrl = (card: Card) => {
   const idParts = card.id.split('-')
   const secondPart = idParts[1].padStart(3, '0')
 
-  let string = `https://cors-anywhere.herokuapp.com/`
+  let string = proxyServerUrl
   string += 'https://tcgcollectornz.com/products/'
   string += `${card.name.replace(/\s/g, '-')}-`
   string += `${secondPart}-${card.set.printedTotal}`

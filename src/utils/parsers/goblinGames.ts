@@ -1,10 +1,12 @@
+import { proxyServerUrl } from 'constants/api'
+
 import type { Card } from 'types/fixtures/card'
 
 export const parseGoblinGames = (card: Card) => {
   const idParts = card.id.split('-')
   const secondPart = idParts[1].padStart(3, '0')
 
-  let string = `https://cors-anywhere.herokuapp.com/`
+  let string = proxyServerUrl
   string += 'https://goblingames.nz/products/'
   string += `${card.name.replace(/\s/g, '-')}-`
   string += `${secondPart}-${card.set.printedTotal}`

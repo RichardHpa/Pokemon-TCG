@@ -24,7 +24,8 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
-    "spaced-comment": "error"
+    "spaced-comment": "error",
+    "@typescript-eslint/no-explicit-any": ["off"]
   },
   "settings": {
     "import/resolver": {
