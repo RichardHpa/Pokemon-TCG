@@ -37,7 +37,8 @@
     "lint:base": "$(yarn bin eslint) --ext \".js,.jsx,.ts,.tsx\"",
     "lint": "yarn run lint:base .",
     "lint:ci": "CI=true yarn run lint --format compact && yarn run typeCheck",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "(yarn prettier . --write)"
   },
   "browserslist": {
     "production": [

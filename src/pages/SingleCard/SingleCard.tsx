@@ -28,7 +28,7 @@ export const SingleCard = () => {
     return <>error</>
   }
 
-  const tcgVariants = Object.keys(card.tcgplayer.prices);
+  const tcgVariants = Object.keys(card.tcgplayer.prices)
 
   return (
     <div>
@@ -60,73 +60,72 @@ export const SingleCard = () => {
               <Paragraph>{card?.flavorText}</Paragraph>
               <Paragraph>Artist: {card.artist}</Paragraph>
               <Paragraph>
-                Card Type: {card.supertype}&nbsp; 
-                (
-                  {card.subtypes && card.subtypes.length >= 0 && (
-                    <span>
-                      {card.subtypes.map((subtype,i) => {
-                        if(i < card.subtypes.length - 1){
-                          return(
-                            <span key={subtype}>{subtype}; </span>
-                          )
-                        } else {
-                          return(
-                            <span key={subtype}>{subtype}</span>
-                          )
-                        }
-
-                      })}
-                    </span>
-                  )}
+                Card Type: {card.supertype}&nbsp; (
+                {card.subtypes && card.subtypes.length >= 0 && (
+                  <span>
+                    {card.subtypes.map((subtype, i) => {
+                      if (i < card.subtypes.length - 1) {
+                        return <span key={subtype}>{subtype}; </span>
+                      } else {
+                        return <span key={subtype}>{subtype}</span>
+                      }
+                    })}
+                  </span>
+                )}
                 )
               </Paragraph>
 
               {card.abilities && card.abilities.length >= 0 && (
-                    <div>
-                      <Paragraph>Abilities: </Paragraph>
-                      {card.abilities.map((ability) => {
-                        return(
-                          <div key={ability.name}> {ability.name} ({ability.type}) - {ability.text} </div>
-                        )
-                      }
-                      )}
-                    </div>
-                  )                    
-              }
+                <div>
+                  <Paragraph>Abilities: </Paragraph>
+                  {card.abilities.map((ability) => {
+                    return (
+                      <div key={ability.name}>
+                        {' '}
+                        {ability.name} ({ability.type}) - {ability.text}{' '}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
 
               <br />
-              <div className="relative overflow-x-auto">
-                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                          <tr>
-                              <th scope="col" className="px-6 py-3">
-                                  Variant
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                  Market Price
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                  Range
-                              </th>
-
-                          </tr>
-                      </thead>
-                      <tbody>
-                        {tcgVariants.map((variant) => {
-                          return(
-                            <tr key={variant} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                              <td className="px-6 py-4">{variant}</td>
-                              <td className="px-6 py-4">${card.tcgplayer.prices[variant].market} USD</td>
-                              <td className="px-6 py-4">${card.tcgplayer.prices[variant].low} - ${card.tcgplayer.prices[variant].high} USD</td>
-                              
-                            </tr>
-                          )
-                          }
-                        )}
-                      </tbody>
-                  </table>
+              <div className='relative overflow-x-auto'>
+                <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+                  <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+                    <tr>
+                      <th scope='col' className='px-6 py-3'>
+                        Variant
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Market Price
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Range
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tcgVariants.map((variant) => {
+                      return (
+                        <tr
+                          key={variant}
+                          className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'
+                        >
+                          <td className='px-6 py-4'>{variant}</td>
+                          <td className='px-6 py-4'>
+                            ${card.tcgplayer.prices[variant].market} USD
+                          </td>
+                          <td className='px-6 py-4'>
+                            ${card.tcgplayer.prices[variant].low} - $
+                            {card.tcgplayer.prices[variant].high} USD
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
               </div>
-
             </Card>
           </div>
           <StockFinder card={card} />
