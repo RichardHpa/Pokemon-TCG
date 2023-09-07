@@ -13,12 +13,14 @@ const props = {
   image: set.images.logo,
 }
 
+const rares = set.total - set.printedTotal
+
 describe('SetCard', () => {
   test('renders SetCard', () => {
     render(<SetCard {...props} />)
     expect(screen.getByText(set.name)).toBeInTheDocument()
     expect(screen.getByText(`${set.series} - ${set.releaseDate}`)).toBeInTheDocument()
-    expect(screen.getByText(`${set.total} cards`)).toBeInTheDocument()
+    expect(screen.getByText(`${set.total} Cards (${rares} Secret Cards)`)).toBeInTheDocument()
   })
 
   test('renders SetCard snapshot', () => {

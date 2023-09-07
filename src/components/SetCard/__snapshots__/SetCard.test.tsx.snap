@@ -32,6 +32,14 @@ exports[`SetCard renders SetCard snapshot 1`] = `
            - 
           2022/09/09
         </p>
+        <p
+          class="mb-3 text-gray-500 dark:text-gray-400"
+        >
+          217
+           Cards (
+          21
+           Secret Cards)
+        </p>
       </div>
     </div>
   </div>

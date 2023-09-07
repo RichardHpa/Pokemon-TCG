@@ -1,3 +1,5 @@
+import { proxyServerUrl } from 'constants/api'
+
 import { generateSetId } from '../generateSetId'
 
 import type { Card } from 'types/fixtures/card'
@@ -18,7 +20,8 @@ export const parseGetThoseMonsUrl = (card: Card) => {
   const urls: string[] = []
   variants.forEach((variant) => {
     // start with set version and card number
-    let string = `https://cors-anywhere.herokuapp.com/https://getthosemons.co.nz/${firstPart}-${secondPart}`
+    let string = proxyServerUrl
+    string += `https://getthosemons.co.nz/${firstPart}-${secondPart}`
     // add total printed cards
     string += `-${card.set.printedTotal}`
     // add the name
