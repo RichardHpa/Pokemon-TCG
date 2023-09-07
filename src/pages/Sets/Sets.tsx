@@ -80,6 +80,8 @@ export const Sets = () => {
                     series={set.series}
                     releaseDate={set.releaseDate}
                     image={set.images.logo}
+                    total={set.total}
+                    printedTotal={set.printedTotal}
                   />
                 </Link>
               </div>
