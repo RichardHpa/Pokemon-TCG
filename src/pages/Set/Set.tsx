@@ -11,8 +11,8 @@ import { useGetCards } from 'hooks/useGetCards'
 import type { Card as CardProps } from 'types/fixtures/card'
 
 export const Set = () => {
-  const { id } = useParams()
-  const { data, loading, error } = useGetSet(id)
+  const { setId } = useParams()
+  const { data, loading, error } = useGetSet(setId)
 
   const {
     cards,
@@ -21,7 +21,7 @@ export const Set = () => {
     fetchMoreCards,
     isFetching,
   } = useGetCards({
-    query: `set.id:"${id}"`,
+    query: `set.id:"${setId}"`,
     pageSize: 30,
     orderBy: 'number',
   })

@@ -4,13 +4,10 @@ import { Heading } from 'components/Heading'
 
 import type { Set } from 'types/fixtures/set'
 
-interface SetCardProps
-  extends Pick<Set, 'name' | 'series' | 'releaseDate' | 'total' | 'printedTotal'> {
-  image: string
-}
+type SetCardProps = Set
 
 export const SetCard = ({
-  image,
+  images,
   name,
   series,
   releaseDate,
@@ -22,7 +19,7 @@ export const SetCard = ({
     <Card>
       <div className='flex flex-col h-full'>
         <div className='flex justify-center mb-4'>
-          <img className='w-full max-w-xs' src={image} alt={`${name} logo`} />
+          <img className='w-full max-w-xs' src={images.logo} alt={`${name} logo`} />
         </div>
 
         <div className='mt-auto'>

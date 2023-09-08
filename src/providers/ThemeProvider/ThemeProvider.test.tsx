@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { setMatchMediaMock } from 'tests/matchMediaMock'
 
 import { Theme, ThemeProvider, useTheme } from './ThemeProvider'
 
@@ -26,10 +25,6 @@ const ThemeExample = () => {
 }
 
 describe('ThemeProvider', () => {
-  beforeEach(() => {
-    setMatchMediaMock()
-  })
-
   test('expected Theme enum', () => {
     expect(Theme).toEqual({
       DARK: 'dark',
