@@ -2,19 +2,20 @@ import { useParams } from 'react-router-dom'
 
 import { BreadcrumbHeader } from 'components/BreadcrumbHeader'
 import { LoadingPokeBall } from 'components/LoadingPokeBall'
-
 import { Paragraph } from 'components/Paragraph'
 import { Heading } from 'components/Heading'
+import { Card } from 'components/Card'
 
 import { StockFinder } from './components/StockFinder'
 
-import { Card } from 'components/Card'
-
 import { useGetCard } from 'hooks/useGetCard'
+
+import { invariant } from 'utils/invariant'
 
 export const SingleCard = () => {
   const { cardId } = useParams()
-  const { card, loading } = useGetCard(cardId)
+  invariant(cardId)
+  const { card, loading, error } = useGetCard(cardId)
 
   if (loading) {
     return (
@@ -25,7 +26,7 @@ export const SingleCard = () => {
   }
 
   if (!card) {
-    return <>error</>
+    return <>{error}</>
   }
 
   const tcgVariants = Object.keys(card.tcgplayer.prices)

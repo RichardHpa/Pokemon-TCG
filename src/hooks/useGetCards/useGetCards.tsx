@@ -22,7 +22,7 @@ const getCards = async ({ pageSize, query, orderBy, page }) => {
   }
 }
 
-export const useGetCards = ({ query, pageSize = 1, orderBy = '' }: UseGetCards) => {
+export const useGetCards = ({ query = '', pageSize = 1, orderBy = '' }: UseGetCards = {}) => {
   const [cards, setCards] = useState<Card[]>()
   const [loading, setLoading] = useState<boolean>(true)
   const [isFetching, setIsFetching] = useState<boolean>(true)
@@ -71,5 +71,6 @@ export const useGetCards = ({ query, pageSize = 1, orderBy = '' }: UseGetCards) 
     totalCount,
     hasMore,
     fetchMoreCards,
+    error: cards && cards.length === 0 ? 'Cannot find any cards with these parameters' : undefined,
   }
 }

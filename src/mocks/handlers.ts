@@ -24,7 +24,7 @@ export const handlers = [
     )
   }),
 
-  rest.get('https://api.pokemontcg.io/v2/cards', (_req, res, ctx) => {
+  rest.get('https://api.pokemontcg.io/v2/cards', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
