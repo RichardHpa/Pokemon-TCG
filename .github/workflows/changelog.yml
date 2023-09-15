@@ -13,6 +13,11 @@ jobs:
     if: startsWith(github.head_ref, 'changelog/config') == true
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
 
       - name: 'Get current Package Version'
         id: PACKAGE_VERSION
