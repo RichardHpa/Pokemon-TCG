@@ -35,14 +35,7 @@ export const Home = () => {
               return (
                 <div key={set.id} className='flex-1 items-stretch' role='listitem'>
                   <Link to={`/sets/${set.id}`}>
-                    <SetCard
-                      name={set.name}
-                      series={set.series}
-                      releaseDate={set.releaseDate}
-                      image={set.images.logo}
-                      total={set.total}
-                      printedTotal={set.printedTotal}
-                    />
+                    <SetCard {...set} />
                   </Link>
                 </div>
               )

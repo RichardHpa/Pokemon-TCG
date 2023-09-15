@@ -1,13 +1,8 @@
-import { setMatchMediaMock } from 'tests/matchMediaMock'
 import { render, screen } from 'tests/renderHelpers'
 
 import { Navbar } from './Navbar'
 
 describe('Navbar', () => {
-  beforeEach(() => {
-    setMatchMediaMock()
-  })
-
   test('renders Navbar', () => {
     render(<Navbar />)
 

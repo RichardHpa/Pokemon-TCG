@@ -1,5 +1,5 @@
 export interface UseGetCards {
-  query: string
+  query?: string
   pageSize?: number
   orderBy?: string
   manual?: boolean

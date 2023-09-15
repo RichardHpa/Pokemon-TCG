@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 
 import { Navbar } from 'components/Navbar'
 import { Footer } from 'components/Footer'
@@ -10,10 +10,14 @@ function App() {
       <Navbar />
       <div className='container mx-auto py-2'>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='sets' element={<Sets />} />
-          <Route path='sets/:id' element={<Set />} />
-          <Route path='sets/:setId/:cardId' element={<SingleCard />} />
+          <Route index element={<Home />} />
+          <Route path='sets' element={<Outlet />}>
+            <Route index element={<Sets />} />
+            <Route path=':setId' element={<Outlet />}>
+              <Route index element={<Set />} />
+              <Route path=':cardId' element={<SingleCard />} />
+            </Route>
+          </Route>
           <Route path='search' element={<Search />} />
           <Route path='*' element={<>404</>} />
         </Routes>

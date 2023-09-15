@@ -1,12 +1,8 @@
-import { setMatchMediaMock } from 'tests/matchMediaMock'
 import { render, screen } from 'tests/renderHelpers'
 
 import { NavLink } from './NavLink'
 
 describe('NavLink', () => {
-  beforeEach(() => {
-    setMatchMediaMock()
-  })
   test('renders NavLink', () => {
     render(<NavLink to='/'>Test</NavLink>)
 
