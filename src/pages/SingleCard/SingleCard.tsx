@@ -25,7 +25,7 @@ export const SingleCard = () => {
     )
   }
 
-  if (!card) {
+  if (!card || error) {
     return <>{error}</>
   }
 

@@ -50,6 +50,7 @@ describe('useGetCards', () => {
       isFetching: true,
       loading: true,
       totalCount: undefined,
+      error: undefined,
     })
 
     await waitFor(() => {
@@ -63,6 +64,7 @@ describe('useGetCards', () => {
       isFetching: false,
       loading: false,
       totalCount: 3,
+      error: undefined,
     })
   })
 
