@@ -11,32 +11,36 @@ runs:
       id: find-pr
       uses: ./.github/actions/get-pr
 
-    # - name: 'Set ENV.PR_*'
-    #   shell: bash
-    #   # TODO: Use this syntax instead of an `exit 0` in the script below…pending support for the keyword.
-    #   # if: steps.find-pr.outputs.number != ''
-    #   run: |
-    #     PR_NUMBER="${{ steps.find-pr.outputs.number }}";
+    - name: 'Set ENV.PR_*'
+      shell: bash
+      # TODO: Use this syntax instead of an `exit 0` in the script below…pending support for the keyword.
+      # if: steps.find-pr.outputs.number != ''
+      run: |
+        PR_NUMBER="${{ steps.find-pr.outputs.number }}";
 
-    #     # Exit if we didn't find a PR…
-    #     if [ -z ${PR_NUMBER} ];then
-    #       echo "Skipping env.PR_* as we did not find a PR."
-    #       exit 0
-    #     fi
+        # Exit if we didn't find a PR…
+        if [ -z ${PR_NUMBER} ];then
+          echo "Skipping env.PR_* as we did not find a PR."
+          exit 0
+        fi
 
-    #     PR_TITLE="${{ steps.find-pr.outputs.title }}";
-    #     PR_URL="${{ steps.find-pr.outputs.url }}";
+        PR_TITLE="${{ steps.find-pr.outputs.title }}";
+        PR_URL="${{ steps.find-pr.outputs.url }}";
 
-    #     echo "PR_NUMBER=${PR_NUMBER}" >> $GITHUB_ENV
-    #     echo "PR_TITLE=${PR_TITLE}" >> $GITHUB_ENV
-    #     echo "PR_URL=${PR_URL}" >> $GITHUB_ENV
+        echo "PR_NUMBER=${PR_NUMBER}" >> $GITHUB_ENV
+        echo "PR_TITLE=${PR_TITLE}" >> $GITHUB_ENV
+        echo "PR_URL=${PR_URL}" >> $GITHUB_ENV
 
-    # - name: Debug Outputs
-    #   shell: bash
-    #   run: |
-    #     echo PR_NUMBER: "${{ env.PR_NUMBER }}"
-    #     echo PR_TITLE: "${{ env.PR_TITLE }}"
-    #     echo PR_URL: "${{ env.PR_URL }}"
+    - name: Debug Outputs
+      shell: bash
+      run: |
+        echo env.GITHUB_REF_SLUG: "${{ env.GITHUB_REF_SLUG }}"
+        echo GITHUB_BRANCH_NAME: "${{ env.GITHUB_BRANCH_NAME }}"
+        echo PR_NUMBER: "${{ env.PR_NUMBER }}"
+        echo PR_TITLE: "${{ env.PR_TITLE }}"
+        echo PR_URL: "${{ env.PR_URL }}"
+        echo PR_MARKDOWN_LINK: "${{ env.PR_MARKDOWN_LINK }}"
+        echo PR_SLACK_LINK: "${{ env.PR_SLACK_LINK }}"
 
 ###
 # Output Values
