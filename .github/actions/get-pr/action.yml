@@ -13,97 +13,6 @@ inputs:
     required: false
     description: Commit SHA to find a PR for. Ignored for a pull_request event.
     default: ${{ github.sha }}
-
-name: Sharesight Common Variables
-description: A workflow to build common variables used across multiple workflows.
-
-# TODO: Can we move this into a private repo?
-
-runs:
-  using: composite
-  steps:
-    ###
-    # Adds `env.GITHUB_REF_SLUG` and more that we require for url-safe or version-safe names.
-    - name: Load Github Slug Env Variables
-      uses: rlespinasse/github-slug-action@v4
-
-    # We use a package because a `push` and a `pull_request` require two very different approaches…
-    - name: Get Branch Name
-      id: branch-name
-      uses: tj-actions/branch-names@v6
-
-    ###
-    # ENV: GITHUB_BRANCH_NAME
-    #   Strips `refs/heads/` from `refs/heads/some/feature/branch` to `some/feature/branch`.
-    - name: 'Set env.GITHUB_BRANCH_NAME'
-      shell: bash
-      run: echo "GITHUB_BRANCH_NAME=${{ steps.branch-name.outputs.current_branch }}" >> $GITHUB_ENV
-
-    ###
-    # ENV: PR_NUMBER, PR_TITLE, PR_URL, PR_MARKDOWN_LINK, PR_SLACK_LINK
-    # Creates markdown and slack friendly links as well.
-    - name: Find Pull Request
-      id: find-pr
-      uses: sharesight/find-github-pull-request@v1.2.0
-
-    - name: 'Set ENV.PR_*'
-      shell: bash
-      # TODO: Use this syntax instead of an `exit 0` in the script below…pending support for the keyword.
-      # if: steps.find-pr.outputs.number != ''
-      run: |
-        PR_NUMBER="${{ steps.find-pr.outputs.number }}";
-
-        # Exit if we didn't find a PR…
-        if [ -z ${PR_NUMBER} ];then
-          echo "Skipping env.PR_* as we did not find a PR."
-          exit 0
-        fi
-
-        PR_TITLE="${{ steps.find-pr.outputs.title }}";
-        PR_URL="${{ steps.find-pr.outputs.url }}";
-
-        echo "PR_NUMBER=${PR_NUMBER}" >> $GITHUB_ENV
-        echo "PR_TITLE=${PR_TITLE}" >> $GITHUB_ENV
-        echo "PR_URL=${PR_URL}" >> $GITHUB_ENV
-
-        echo "PR_MARKDOWN_LINK=[PR#${PR_NUMBER} — ${PR_TITLE}](${PR_URL})" >> $GITHUB_ENV
-        echo "PR_SLACK_LINK=via <${PR_URL}|PR#${PR_NUMBER}>" >> $GITHUB_ENV
-
-    - name: Debug Outputs
-      shell: bash
-      run: |
-        echo env.GITHUB_REF_SLUG: "${{ env.GITHUB_REF_SLUG }}"
-        echo GITHUB_BRANCH_NAME: "${{ env.GITHUB_BRANCH_NAME }}"
-        echo PR_NUMBER: "${{ env.PR_NUMBER }}"
-        echo PR_TITLE: "${{ env.PR_TITLE }}"
-        echo PR_URL: "${{ env.PR_URL }}"
-        echo PR_MARKDOWN_LINK: "${{ env.PR_MARKDOWN_LINK }}"
-        echo PR_SLACK_LINK: "${{ env.PR_SLACK_LINK }}"
-
-###
-# Output Values
-# NOTE: Anything with a value from `env.…` will be available in `env.…` instead of `outputs.…`.
-###
-outputs:
-  GITHUB_BRANCH_NAME:
-    description: 'The current github branch name, stripped out from the GITHUB_REF.'
-    value: ${{ env.GITHUB_BRANCH_NAME }}
-  PR_NUMBER:
-    description: 'The PR number, if found.'
-    value: ${{ env.PR_NUMBER }}
-  PR_TITLE:
-    description: 'The PR title, if found.'
-    value: ${{ env.PR_TITLE }}
-  PR_URL:
-    description: 'The PR url, if found.'
-    value: ${{ env.PR_URL }}
-  PR_MARKDOWN_LINK:
-    description: 'The PR url formatted into Markdown, if found.'
-    value: ${{ env.PR_MARKDOWN_LINK }}
-  PR_SLACK_LINK:
-    description: 'The PR url formatted for Slack, if found.'
-    value: ${{ env.PR_SLACK_LINK }}
-
 outputs:
   number:
     description: The found PR number (eg. '1234')
@@ -117,7 +26,6 @@ outputs:
     description: The found PR's base ref, eg. 'main' or 'master'.
   base-sha:
     description: The found PR's base sha ref's sha, eg. 'main' is currently at 'a1b2c3d4f'.
-
 runs:
   using: 'node16'
   main: 'index.js'
