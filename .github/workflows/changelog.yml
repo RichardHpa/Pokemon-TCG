@@ -42,7 +42,7 @@ jobs:
 
   changelog:
     needs: check
-    if: needs.check.outputs.newer == 'true'
+    if: needs.check.outputs.newer == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
