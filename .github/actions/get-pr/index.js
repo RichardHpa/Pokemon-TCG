@@ -6,8 +6,6 @@ async function run() {
     const myToken = process.env.GITHUB_TOKEN
     const octokit = github.getOctokit(myToken)
     const currentSha = core.getInput('commitSha', { required: false })
-    const allowClosed = core.getBooleanInput('allowClosed', { required: false })
-    const failIfNotFound = core.getBooleanInput('failIfNotFound', { required: false })
 
     const { data } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
       owner: 'RichardHpa',
@@ -18,17 +16,10 @@ async function run() {
     let pullRequests = data
     core.debug(`Found ${pullRequests.length} pull requests with the sha ${currentSha}.`)
 
-    if (!allowClosed) {
-      pullRequests = pullRequests.filter((pr) => pr.state === 'open')
-      core.debug(`Filtered to find ${pullRequests.length} open pull requests.`)
-    }
-
     if (!pullRequests.length) {
-      if (failIfNotFound) {
-        core.setFailed(
-          `No pull requests found for ${context.repo.owner}/${context.repo.repo}@${currentSha}, Github Action failed.`,
-        )
-      }
+      core.setFailed(
+        `No pull requests found for ${github.context.repo.owner}/${github.context.repo.repo}@${currentSha}, Github Action failed.`,
+      )
     }
 
     let pullRequest = pullRequests[0]
