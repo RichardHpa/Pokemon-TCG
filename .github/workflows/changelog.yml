@@ -1,0 +1,74 @@
+name: changelog
+
+on:
+  pull_request:
+    branches:
+      - main # NOTE: This is the TARGET branch, not the source.
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      isNewerVersion: ${{ steps.compare.outputs.isNewerVersion }}
+      latestVersion: ${{ steps.compare.outputs.latestVersion }}
+      versionType: ${{ steps.compare.outputs.versionType }}
+      tag: ${{ steps.setTags.outputs.tag }}
+    # TODO: Change this when releasing
+    if: startsWith(github.head_ref, 'changelog/config') == true
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
+      - name: 'Get current Package Version'
+        id: PACKAGE_VERSION
+        uses: martinbeentjes/npm-get-version-action@v1.2.3
+
+      - name: Set PACKAGE_VERSION and tag
+        id: setTags
+        run: |
+          echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
+          echo "::set-output name=tag::v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
+
+      - name: Compare the two versions
+        uses: ./.github/actions/compare-versions
+        id: compare
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          currentVersion: ${{ env.PACKAGE_VERSION }}
+
+  changelog:
+    needs: check
+    if: needs.check.outputs.isNewerVersion == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
+      - name: Grab Common Variables
+        uses: ./.github/actions/common
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build changelog notes for our Release
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+
+      - name: 'Add a comment with the Changelog'
+        if: env.PR_NUMBER != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: changelog
+          number: ${{ env.PR_NUMBER }}
+          message: |
+            ### Changelog from v${{ needs.check.outputs.latestVersion }}_
+
+            ${{ steps.build_changelog.outputs.changelog }}

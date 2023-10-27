@@ -1,0 +1,27 @@
+name: Find Github Pull Request
+description: Find a Github Pull Request in a Github Action
+branding:
+  icon: git-pull-request
+  color: yellow
+
+inputs:
+  commitSha:
+    required: false
+    description: Commit SHA to find a PR for. Ignored for a pull_request event.
+    default: ${{ github.sha }}
+outputs:
+  number:
+    description: The found PR number (eg. '1234')
+  title:
+    description: The found PR title, sanitized to be used in a shell environment.
+  body:
+    description: The found PR description, sanitized to be used in a shell environment.
+  url:
+    description: The found PR url.
+  base-ref:
+    description: The found PR's base ref, eg. 'main' or 'master'.
+  base-sha:
+    description: The found PR's base sha ref's sha, eg. 'main' is currently at 'a1b2c3d4f'.
+runs:
+  using: 'node16'
+  main: 'index.js'

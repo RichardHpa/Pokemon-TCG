@@ -14,7 +14,7 @@ async function run() {
 
     const { data: releases } = await octokit.rest.repos.listReleases({
       owner: 'RichardHpa',
-      repo: 'Demo-App',
+      repo: 'Pokemon-TCG',
       per_page: 1,
     })
 
@@ -22,6 +22,7 @@ async function run() {
     if (!latestVersion?.version) {
       throw new Error(`Could not parse a version from octokit api.`)
     }
+    core.setOutput('latestVersion', latestVersion.version)
 
     const isNewerVersion = semver.gt(currentVersion.version, latestVersion.version)
     core.setOutput('isNewerVersion', isNewerVersion)

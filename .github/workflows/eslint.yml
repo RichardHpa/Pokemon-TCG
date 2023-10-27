@@ -11,6 +11,8 @@ on:
 jobs:
   eslint:
     runs-on: ubuntu-latest
+    # TODO: Change this when releasing
+    if: github.ref == 'refs/heads/main'
     strategy:
       fail-fast: false
     steps:
