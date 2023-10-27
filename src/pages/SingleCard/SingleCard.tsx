@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { BreadcrumbHeader } from 'components/BreadcrumbHeader'
@@ -5,6 +6,7 @@ import { LoadingPokeBall } from 'components/LoadingPokeBall'
 import { Paragraph } from 'components/Paragraph'
 import { Heading } from 'components/Heading'
 import { Card } from 'components/Card'
+import { Table } from 'components/Table'
 
 import { StockFinder } from './components/StockFinder'
 
@@ -12,10 +14,45 @@ import { useGetCard } from 'hooks/useGetCard'
 
 import { invariant } from 'utils/invariant'
 
+const tableColumns = [
+  {
+    label: 'Variant',
+    key: 'variant',
+  },
+  {
+    label: 'Market Price',
+    key: 'marketPrice',
+  },
+  {
+    label: 'Range',
+    key: 'range',
+  },
+]
+
+interface CardPriceDataProps {
+  key: string
+  variant: string
+  marketPrice: string
+  range: string
+}
+
 export const SingleCard = () => {
   const { cardId } = useParams()
   invariant(cardId)
   const { card, loading, error } = useGetCard(cardId)
+
+  const tableData = useMemo<CardPriceDataProps[]>(() => {
+    if (!card) return []
+    const tcgVariants = Object.keys(card.tcgplayer.prices)
+    return tcgVariants.map((variant, i) => {
+      return {
+        key: `${variant}-${i}`,
+        variant: variant,
+        marketPrice: `$${card.tcgplayer.prices[variant].market} USD`,
+        range: `$${card.tcgplayer.prices[variant].low} - $${card.tcgplayer.prices[variant].high} USD`,
+      }
+    })
+  }, [card])
 
   if (loading) {
     return (
@@ -28,8 +65,6 @@ export const SingleCard = () => {
   if (!card || error) {
     return <>{error}</>
   }
-
-  const tcgVariants = Object.keys(card.tcgplayer.prices)
 
   return (
     <div>
@@ -82,8 +117,8 @@ export const SingleCard = () => {
                   {card.abilities.map((ability) => {
                     return (
                       <div key={ability.name}>
-                        {' '}
-                        {ability.name} ({ability.type}) - {ability.text}{' '}
+                        {ability.name}
+                        <br /> {ability.text}
                       </div>
                     )
                   })}
@@ -91,42 +126,8 @@ export const SingleCard = () => {
               )}
 
               <br />
-              <div className='relative overflow-x-auto'>
-                <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-                  <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
-                    <tr>
-                      <th scope='col' className='px-6 py-3'>
-                        Variant
-                      </th>
-                      <th scope='col' className='px-6 py-3'>
-                        Market Price
-                      </th>
-                      <th scope='col' className='px-6 py-3'>
-                        Range
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tcgVariants.map((variant) => {
-                      return (
-                        <tr
-                          key={variant}
-                          className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'
-                        >
-                          <td className='px-6 py-4'>{variant}</td>
-                          <td className='px-6 py-4'>
-                            ${card.tcgplayer.prices[variant].market} USD
-                          </td>
-                          <td className='px-6 py-4'>
-                            ${card.tcgplayer.prices[variant].low} - $
-                            {card.tcgplayer.prices[variant].high} USD
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
+
+              <Table columns={tableColumns} data={tableData} />
             </Card>
           </div>
           <StockFinder card={card} />
