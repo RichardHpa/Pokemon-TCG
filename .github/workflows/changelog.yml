@@ -23,6 +23,9 @@ jobs:
         run: |
           echo ${{github.sha}}
 
+      - name: Grab Sharesight Common Variables
+        uses: ./.github/actions/common
+
       # - name: 'Setup Node, Caching, and Yarn install'
       #   uses: ./.github/actions/node-yarn
 
