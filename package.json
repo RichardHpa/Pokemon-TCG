@@ -1,9 +1,9 @@
 {
   "name": "demo-app",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "UNLICENSED",
   "private": false,
-  "homepage": "https://RichardHpa.github.io/Demo-App",
+  "homepage": "https://RichardHpa.github.io/Pokemon-TCG",
   "dependencies": {
     "@actions/core": "^1.10.0",
     "@actions/github": "^5.1.1",
