@@ -19,48 +19,55 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 'Setup Node, Caching, and Yarn install'
-        uses: ./.github/actions/node-yarn
-
-      - name: 'Get current Package Version'
-        id: PACKAGE_VERSION
-        uses: martinbeentjes/npm-get-version-action@v1.2.3
-
-      - name: Set PACKAGE_VERSION and tag
-        id: setTags
+      - name: Render Info
         run: |
-          echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
-          echo "::set-output name=tag::v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
+          echo ${{github}}
 
-      - name: Compare the two versions
-        uses: ./.github/actions/compare-versions
-        id: compare
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          currentVersion: ${{ env.PACKAGE_VERSION }}
+      # - name: 'Setup Node, Caching, and Yarn install'
+      #   uses: ./.github/actions/node-yarn
 
-  changelog:
-    needs: check
-    if: needs.check.outputs.isNewerVersion == 'false'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      # - name: 'Get current Package Version'
+      #   id: PACKAGE_VERSION
+      #   uses: martinbeentjes/npm-get-version-action@v1.2.3
 
-      - name: Build changelog notes for our Release
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v4
+      # - name: Set PACKAGE_VERSION and tag
+      #   id: setTags
+      #   run: |
+      #     echo "PACKAGE_VERSION=${{ steps.PACKAGE_VERSION.outputs.current-version }}" >> $GITHUB_ENV
+      #     echo "::set-output name=tag::v${{ steps.PACKAGE_VERSION.outputs.current-version }}"
 
-      - name: 'Add a comment with the Changelog'
-        if: env.PR_NUMBER != ''
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: changelog
-          number: ${{ env.PR_NUMBER }}
-          message: |
-            ### :tada: New Release: v${{ needs.check.outputs.current_version }}
-            _at ${{ github.sha }} from v${{ needs.check.outputs.latest_version }}_
+      # - name: Compare the two versions
+      #   uses: ./.github/actions/compare-versions
+      #   id: compare
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     currentVersion: ${{ env.PACKAGE_VERSION }}
 
-            ${{ steps.build_changelog.outputs.changelog }}
+  # changelog:
+  #   needs: check
+  #   if: needs.check.outputs.isNewerVersion == 'false'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Grab Sharesight Common Variables
+  #       uses: ./.github/actions/common
+
+  #     - name: Build changelog notes for our Release
+  #       id: build_changelog
+  #       uses: mikepenz/release-changelog-builder-action@v4
+
+  #     - name: 'Add a comment with the Changelog'
+  #       if: env.PR_NUMBER != ''
+  #       uses: marocchino/sticky-pull-request-comment@v2
+  #       with:
+  #         header: changelog
+  #         number: ${{ env.PR_NUMBER }}
+  #         message: |
+  #           ### :tada: New Release: v${{ needs.check.outputs.current_version }}
+  #           _at ${{ github.sha }} from v${{ needs.check.outputs.latest_version }}_
+
+  #           ${{ steps.build_changelog.outputs.changelog }}

@@ -1,0 +1,54 @@
+name: 'Get Common Variables'
+description: A workflow to build common variables used across multiple workflows.
+
+runs:
+  using: composite
+  steps:
+    ###
+    # ENV: PR_NUMBER, PR_TITLE, PR_URL, PR_MARKDOWN_LINK, PR_SLACK_LINK
+    # Creates markdown and slack friendly links as well.
+    - name: Find Pull Request
+      id: find-pr
+      uses: ./.github/actions/get-pr
+
+    - name: 'Set ENV.PR_*'
+      shell: bash
+      # TODO: Use this syntax instead of an `exit 0` in the script below…pending support for the keyword.
+      # if: steps.find-pr.outputs.number != ''
+      run: |
+        PR_NUMBER="${{ steps.find-pr.outputs.number }}";
+
+        # Exit if we didn't find a PR…
+        if [ -z ${PR_NUMBER} ];then
+          echo "Skipping env.PR_* as we did not find a PR."
+          exit 0
+        fi
+
+        PR_TITLE="${{ steps.find-pr.outputs.title }}";
+        PR_URL="${{ steps.find-pr.outputs.url }}";
+
+        echo "PR_NUMBER=${PR_NUMBER}" >> $GITHUB_ENV
+        echo "PR_TITLE=${PR_TITLE}" >> $GITHUB_ENV
+        echo "PR_URL=${PR_URL}" >> $GITHUB_ENV
+
+    - name: Debug Outputs
+      shell: bash
+      run: |
+        echo PR_NUMBER: "${{ env.PR_NUMBER }}"
+        echo PR_TITLE: "${{ env.PR_TITLE }}"
+        echo PR_URL: "${{ env.PR_URL }}"
+
+###
+# Output Values
+# NOTE: Anything with a value from `env.…` will be available in `env.…` instead of `outputs.…`.
+###
+outputs:
+  PR_NUMBER:
+    description: 'The PR number, if found.'
+    value: ${{ env.PR_NUMBER }}
+  PR_TITLE:
+    description: 'The PR title, if found.'
+    value: ${{ env.PR_TITLE }}
+  PR_URL:
+    description: 'The PR url, if found.'
+    value: ${{ env.PR_URL }}
