@@ -22,6 +22,7 @@ async function run() {
     if (!latestVersion?.version) {
       throw new Error(`Could not parse a version from octokit api.`)
     }
+    core.setOutput('latestVersion', latestVersion)
 
     const isNewerVersion = semver.gt(currentVersion.version, latestVersion.version)
     core.setOutput('isNewerVersion', isNewerVersion)

@@ -10,6 +10,8 @@ outputs:
     description: 'Is the latest version newer than the current version'
   versionType:
     description: 'The type of version change (major, minor, patch)'
+  latestVersion:
+    description: 'The last version number found'
 runs:
   using: 'node16'
   main: 'index.js'

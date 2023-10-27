@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       isNewerVersion: ${{ steps.compare.outputs.isNewerVersion }}
+      latest_version: ${{ steps.compare.outputs.latestVersion }}
       versionType: ${{ steps.compare.outputs.versionType }}
       tag: ${{ steps.setTags.outputs.tag }}
     # TODO: Change this when releasing
@@ -68,7 +69,6 @@ jobs:
           header: changelog
           number: ${{ env.PR_NUMBER }}
           message: |
-            ### :tada: Changelog from : v${{ needs.check.outputs.current_version }}
-            _at ${{ github.sha }} from v${{ needs.check.outputs.latest_version }}_
+            ### Changelog from v${{ needs.check.outputs.latestVersion }}_
 
             ${{ steps.build_changelog.outputs.changelog }}
