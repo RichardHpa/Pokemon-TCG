@@ -19,6 +19,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 'Setup Node, Caching, and Yarn install'
+        uses: ./.github/actions/node-yarn
+
       - name: Render Info
         run: |
           echo ${{github.sha}}
