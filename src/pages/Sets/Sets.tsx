@@ -33,8 +33,8 @@ export const Sets = () => {
     fetchSets()
   }, [fetchSets])
 
-  const handleOnChange = useCallback((e) => setSearchValue(e.target.value), [])
-  const handleOnChangeSort = useCallback((e) => setSortValue(e.target.value), [])
+  const handleOnChange = useCallback((value) => setSearchValue(value), [])
+  const handleOnChangeSort = useCallback((value) => setSortValue(value), [])
 
   return (
     <div>
@@ -75,14 +75,7 @@ export const Sets = () => {
             return (
               <div key={set.id} className='flex-1 items-stretch'>
                 <Link to={`/sets/${set.id}`}>
-                  <SetCard
-                    name={set.name}
-                    series={set.series}
-                    releaseDate={set.releaseDate}
-                    image={set.images.logo}
-                    total={set.total}
-                    printedTotal={set.printedTotal}
-                  />
+                  <SetCard {...set} />
                 </Link>
               </div>
             )

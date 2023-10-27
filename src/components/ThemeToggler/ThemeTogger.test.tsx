@@ -1,14 +1,9 @@
-import { setMatchMediaMock } from 'tests/matchMediaMock'
 import { render, screen } from 'tests/renderHelpers'
 import userEvent from '@testing-library/user-event'
 
 import { ThemeToggler } from './ThemeToggler'
 
 describe('ThemeToggler', () => {
-  beforeEach(() => {
-    setMatchMediaMock()
-  })
-
   test('renders ThemeToggler with default dark mode', () => {
     render(<ThemeToggler />)
     const button = screen.getByRole('button', { name: /switch to dark mode/i })

@@ -96,9 +96,9 @@ export const Search = () => {
   const [sortValue, setSortValue] = useState<string>()
 
   const { loading, fetchCards, data, loadMore, isFetching } = useFetchCards()
-  const handleOnChange = useCallback((e) => setInputValue(e.target.value), [])
-  const handleOnChangeSelect = useCallback((e) => setSelectValue(e.target.value), [])
-  const handleOnChangeSort = useCallback((e) => setSortValue(e.target.value), [])
+  const handleOnChange = useCallback((value) => setInputValue(value), [])
+  const handleOnChangeSelect = useCallback((value) => setSelectValue(value), [])
+  const handleOnChangeSort = useCallback((value) => setSortValue(value), [])
 
   const showMore = useMemo(() => {
     if (data?.data?.length) {

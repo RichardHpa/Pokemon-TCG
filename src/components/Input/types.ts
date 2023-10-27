@@ -1,5 +1,3 @@
-import type { ChangeEventHandler } from 'react'
-
 export type InputProps = {
-  onChange: ChangeEventHandler
+  onChange: (val: string) => void
 } & React.ComponentPropsWithoutRef<'input'>

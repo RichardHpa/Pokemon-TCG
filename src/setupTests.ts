@@ -5,6 +5,9 @@ import { server } from './mocks/server'
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom'
 
+import { setMatchMediaMock } from 'tests/matchMediaMock'
+
+beforeEach(() => setMatchMediaMock())
 // Establish API mocking before all tests.
 beforeAll(() => server.listen())
 // Reset any request handlers that we may add during the tests,

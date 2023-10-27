@@ -5,4 +5,5 @@ export type OptionProps = {
 
 export type SelectProps = {
   options: OptionProps[]
+  onChange?: (val: string) => void
 } & React.ComponentPropsWithoutRef<'select'>

@@ -4,27 +4,18 @@ import { set } from 'fixtures/sets'
 
 import { SetCard } from './SetCard'
 
-const props = {
-  name: set.name,
-  releaseDate: set.releaseDate,
-  series: set.series,
-  total: set.total,
-  printedTotal: set.printedTotal,
-  image: set.images.logo,
-}
-
 const rares = set.total - set.printedTotal
 
 describe('SetCard', () => {
   test('renders SetCard', () => {
-    render(<SetCard {...props} />)
+    render(<SetCard {...set} />)
     expect(screen.getByText(set.name)).toBeInTheDocument()
     expect(screen.getByText(`${set.series} - ${set.releaseDate}`)).toBeInTheDocument()
     expect(screen.getByText(`${set.total} Cards (${rares} Secret Cards)`)).toBeInTheDocument()
   })
 
   test('renders SetCard snapshot', () => {
-    const { container } = render(<SetCard {...props} />)
+    const { container } = render(<SetCard {...set} />)
     expect(container).toMatchSnapshot()
   })
 })

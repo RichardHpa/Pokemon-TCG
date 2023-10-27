@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 
-import { sets } from 'fixtures/sets'
+import { sets, set } from 'fixtures/sets'
 import { cards } from 'fixtures/cards'
 
 export const handlers = [
@@ -24,7 +24,16 @@ export const handlers = [
     )
   }),
 
-  rest.get('https://api.pokemontcg.io/v2/cards', (_req, res, ctx) => {
+  rest.get('https://api.pokemontcg.io/v2/sets/sv1', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        data: set,
+      }),
+    )
+  }),
+
+  rest.get('https://api.pokemontcg.io/v2/cards', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({

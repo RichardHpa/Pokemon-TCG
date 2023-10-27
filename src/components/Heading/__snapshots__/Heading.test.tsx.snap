@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Heading renders Heading 1`] = `
+<div>
+  <h1
+    class="font-bold tracking-tight text-gray-900 dark:text-white mb-2 text-5xl font-extrabold"
+  >
+    Heading Text
+  </h1>
+</div>
+`;

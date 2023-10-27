@@ -8,11 +8,14 @@ import { SingleCardThumbnail } from 'components/SingleCardThumbnail'
 import { useGetSet } from 'hooks/useGetSet'
 import { useGetCards } from 'hooks/useGetCards'
 
+import { invariant } from 'utils/invariant'
+
 import type { Card as CardProps } from 'types/fixtures/card'
 
 export const Set = () => {
-  const { id } = useParams()
-  const { data, loading, error } = useGetSet(id)
+  const { setId } = useParams()
+  invariant(setId)
+  const { set, loading, error } = useGetSet(setId)
 
   const {
     cards,
@@ -21,26 +24,26 @@ export const Set = () => {
     fetchMoreCards,
     isFetching,
   } = useGetCards({
-    query: `set.id:"${id}"`,
+    query: `set.id:"${setId}"`,
     pageSize: 30,
     orderBy: 'number',
   })
 
-  if (error) {
-    return <div>Error</div>
+  if (!set || error) {
+    return <>{error}</>
   }
 
   return (
     <div>
       <BreadcrumbHeader
-        title={data?.name}
+        title={set?.name}
         breadcrumbs={[
           {
             label: 'Sets',
             path: '/sets',
           },
           {
-            label: data?.name,
+            label: set?.name,
           },
         ]}
       />
@@ -52,7 +55,7 @@ export const Set = () => {
       ) : (
         <>
           <div>
-            <p>{data?.releaseDate}</p>
+            <p>{set?.releaseDate}</p>
           </div>
 
           {cards && (
