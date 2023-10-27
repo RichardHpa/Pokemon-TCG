@@ -21,7 +21,7 @@ jobs:
 
       - name: Render Info
         run: |
-          echo ${{github}}
+          echo ${{github.sha}}
 
       # - name: 'Setup Node, Caching, and Yarn install'
       #   uses: ./.github/actions/node-yarn
