@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/Demo-App/static/css/main.eb4b1125.css",
-    "main.js": "/Demo-App/static/js/main.d4a7c297.js",
-    "index.html": "/Demo-App/index.html"
+    "main.css": "/Pokemon-TCG/static/css/main.eb4b1125.css",
+    "main.js": "/Pokemon-TCG/static/js/main.d8786a14.js",
+    "index.html": "/Pokemon-TCG/index.html"
   },
   "entrypoints": [
     "static/css/main.eb4b1125.css",
-    "static/js/main.d4a7c297.js"
+    "static/js/main.d8786a14.js"
   ]
 }
