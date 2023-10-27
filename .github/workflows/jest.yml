@@ -11,10 +11,10 @@ on:
 jobs:
   jest:
     runs-on: ubuntu-latest
+    # TODO: Change this when releasing
+    if: github.ref == 'refs/heads/main'
     strategy:
       fail-fast: false
-    # TODO: Change this when releasing
-    if: startsWith(github.head_ref, 'changelog/config') == false
     steps:
       - uses: actions/checkout@v3
 
