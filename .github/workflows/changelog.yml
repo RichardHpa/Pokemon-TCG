@@ -28,6 +28,8 @@ jobs:
 
       - name: Grab Sharesight Common Variables
         uses: ./.github/actions/common
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: 'Setup Node, Caching, and Yarn install'
       #   uses: ./.github/actions/node-yarn

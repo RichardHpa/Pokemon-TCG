@@ -5,10 +5,6 @@ branding:
   color: yellow
 
 inputs:
-  token:
-    required: false
-    description: Github Token used to make API request to fetch pull requests from the current owner/repo.
-    default: ${{ github.token }}
   commitSha:
     required: false
     description: Commit SHA to find a PR for. Ignored for a pull_request event.
