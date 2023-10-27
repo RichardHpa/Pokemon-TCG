@@ -4,14 +4,12 @@ description: A workflow to build common variables used across multiple workflows
 runs:
   using: composite
   steps:
-    ###
-    # ENV: PR_NUMBER, PR_TITLE, PR_URL, PR_MARKDOWN_LINK, PR_SLACK_LINK
-    # Creates markdown and slack friendly links as well.
+    # ###
+    # # ENV: PR_NUMBER, PR_TITLE, PR_URL, PR_MARKDOWN_LINK, PR_SLACK_LINK
+    # # Creates markdown and slack friendly links as well.
     - name: Find Pull Request
       id: find-pr
       uses: ./.github/actions/get-pr
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: 'Set ENV.PR_*'
     #   shell: bash
