@@ -36,6 +36,8 @@ jobs:
 
       - name: Grab Sharesight Common Variables
         uses: ./.github/actions/common
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # - name: Render Info
   #   run: |
