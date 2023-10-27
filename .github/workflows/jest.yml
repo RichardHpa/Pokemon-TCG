@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    # TODO: Change this when releasing
+    if: startsWith(github.head_ref, 'changelog/config') == false
     steps:
       - uses: actions/checkout@v3
 

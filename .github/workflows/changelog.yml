@@ -42,7 +42,7 @@ jobs:
 
   changelog:
     needs: check
-    if: needs.check.outputs.newer == 'false'
+    if: needs.check.outputs.isNewerVersion == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
