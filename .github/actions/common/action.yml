@@ -13,8 +13,6 @@ runs:
 
     - name: 'Set ENV.PR_*'
       shell: bash
-      # TODO: Use this syntax instead of an `exit 0` in the script below…pending support for the keyword.
-      # if: steps.find-pr.outputs.number != ''
       run: |
         PR_NUMBER="${{ steps.find-pr.outputs.number }}";
 
@@ -34,13 +32,10 @@ runs:
     - name: Debug Outputs
       shell: bash
       run: |
-        echo env.GITHUB_REF_SLUG: "${{ env.GITHUB_REF_SLUG }}"
         echo GITHUB_BRANCH_NAME: "${{ env.GITHUB_BRANCH_NAME }}"
         echo PR_NUMBER: "${{ env.PR_NUMBER }}"
         echo PR_TITLE: "${{ env.PR_TITLE }}"
         echo PR_URL: "${{ env.PR_URL }}"
-        echo PR_MARKDOWN_LINK: "${{ env.PR_MARKDOWN_LINK }}"
-        echo PR_SLACK_LINK: "${{ env.PR_SLACK_LINK }}"
 
 ###
 # Output Values
