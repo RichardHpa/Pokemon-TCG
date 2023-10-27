@@ -35,12 +35,12 @@ async function run() {
     //   )
     // }
 
-    setOutput('number', pullRequest.number)
-    setOutput('title', pullRequest.title || '')
-    setOutput('body', pullRequest.body || '')
-    setOutput('url', pullRequest.html_url || '')
-    setOutput('base-ref', pullRequest.base?.ref || '')
-    setOutput('base-sha', pullRequest.base?.sha || '')
+    core.setOutput('number', pullRequest.number)
+    core.setOutput('title', pullRequest.title || '')
+    core.setOutput('body', pullRequest.body || '')
+    core.setOutput('url', pullRequest.html_url || '')
+    core.setOutput('base-ref', pullRequest.base?.ref || '')
+    core.setOutput('base-sha', pullRequest.base?.sha || '')
   } catch (error) {
     core.setFailed(error.message)
   }
