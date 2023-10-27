@@ -7,7 +7,17 @@ async function run() {
     const octokit = github.getOctokit(myToken)
 
     const number = github.context.payload.pull_request.number
-    console.log(number)
+    const { data: pullRequest } = await octokit.rest.pulls.get({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      pull_number: number,
+    })
+
+    if (!pullRequest) {
+      throw new Error(
+        `Pull request not found for ${github.context.repo.owner}/${github.context.repo.repo}#${number}, Github Action failed.`,
+      )
+    }
     // const currentSha = core.getInput('commitSha')
 
     // const { data } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
@@ -25,13 +35,12 @@ async function run() {
     //   )
     // }
 
-    // let pullRequest = pullRequests[0]
-    // setOutput('number', pullRequest.number)
-    // setOutput('title', title || '')
-    // setOutput('body', body || '')
-    // setOutput('url', pullRequest.html_url || '')
-    // setOutput('base-ref', pullRequest.base?.ref || '')
-    // setOutput('base-sha', pullRequest.base?.sha || '')
+    setOutput('number', pullRequest.number)
+    setOutput('title', pullRequest.title || '')
+    setOutput('body', pullRequest.body || '')
+    setOutput('url', pullRequest.html_url || '')
+    setOutput('base-ref', pullRequest.base?.ref || '')
+    setOutput('base-sha', pullRequest.base?.sha || '')
   } catch (error) {
     core.setFailed(error.message)
   }
