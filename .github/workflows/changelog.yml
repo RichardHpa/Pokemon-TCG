@@ -8,6 +8,10 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    outputs:
+      isNewerVersion: ${{ steps.compare.outputs.isNewerVersion }}
+      versionType: ${{ steps.compare.outputs.versionType }}
+      tag: ${{ steps.setTags.outputs.tag }}
     # TODO: Change this when releasing
     if: startsWith(github.head_ref, 'changelog/config') == true
     steps:
