@@ -22,14 +22,26 @@ jobs:
       - name: 'Setup Node, Caching, and Yarn install'
         uses: ./.github/actions/node-yarn
 
-      - name: Render Info
-        run: |
-          echo ${{github.sha}}
+      # We use a package because a `push` and a `pull_request` require two very different approaches…
+      - name: Get Branch Name
+        id: branch-name
+        uses: tj-actions/branch-names@v6
 
-      - name: Grab Sharesight Common Variables
-        uses: ./.github/actions/common
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ###
+      # ENV: GITHUB_BRANCH_NAME
+      #   Strips `refs/heads/` from `refs/heads/some/feature/branch` to `some/feature/branch`.
+      - name: 'Set env.GITHUB_BRANCH_NAME'
+        shell: bash
+        run: echo "GITHUB_BRANCH_NAME=${{ steps.branch-name.outputs.current_branch }}" >> $GITHUB_ENV
+
+      # - name: Render Info
+      #   run: |
+      #     echo ${{github.sha}}
+
+      # - name: Grab Sharesight Common Variables
+      #   uses: ./.github/actions/common
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: 'Setup Node, Caching, and Yarn install'
       #   uses: ./.github/actions/node-yarn
