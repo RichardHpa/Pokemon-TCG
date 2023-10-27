@@ -8,7 +8,6 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    # NOTE: We only run this if this is a `release/v` branch!
     # TODO: Change this when releasing
     if: startsWith(github.head_ref, 'changelog/config') == true
     steps:
@@ -36,3 +35,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           currentVersion: ${{ env.PACKAGE_VERSION }}
+
+  changelog:
+    needs: check
+    if: needs.check.outputs.newer == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Build changelog notes for our Release
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v4
