@@ -5,7 +5,7 @@ async function run() {
   try {
     const myToken = process.env.GITHUB_TOKEN
     const octokit = github.getOctokit(myToken)
-    const currentSha = getInput('commitSha', { required: false })
+    const currentSha = core.getInput('commitSha', { required: false })
 
     const { data } = await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
       owner: 'RichardHpa',
